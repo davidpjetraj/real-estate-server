@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "declaration": false,
+    "outDir": "../../dist/apps/admin",
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "paths": {
+      "@nestjs/*": ["node_modules/@nestjs/*"],
+      "@common/*": ["libs/common/src/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
+}

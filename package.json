@@ -1,0 +1,38 @@
+{
+  "name": "server",
+  "packageManager": "yarn@4.4.1",
+  "workspaces": [
+    "apps/*",
+    "libs/*"
+  ],
+  "scripts": {
+    "secret:get": "node .scripts/secret-get.js",
+    "build": "nest build",
+    "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
+    "start": "nest start",
+    "push": "npx prisma db push",
+    "generate": "npx prisma generate",
+    "prisma": "npx prisma studio",
+    "dev": "nest start --watch",
+    "test": "jest --runInBand --verbose"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.11.3",
+    "@nestjs/apollo": "^13.0.4",
+    "@nestjs/common": "^11.0.12",
+    "@nestjs/core": "^11.0.12",
+    "@nestjs/graphql": "^13.0.4",
+    "@prisma/client": "^6.5.0",
+    "@types/dotenv": "^8.2.3",
+    "@types/helmet": "^4.0.0",
+    "dotenv": "^16.4.7",
+    "graphql": "^16.10.0",
+    "graphql-depth-limit": "^1.1.0",
+    "helmet": "^8.1.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/graphql-depth-limit": "^1",
+    "prisma": "^6.5.0"
+  }
+}

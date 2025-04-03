@@ -1,0 +1,22 @@
+import dotenv from 'dotenv';
+import { z } from 'zod';
+dotenv.config();
+export const envSchema = z.object({
+  ADMIN_SERVER_PORT: z
+    .string()
+    .refine(
+      (port) => parseInt(port) > 0 && parseInt(port) < 65536,
+      'Invalid port number',
+    ),
+  ADMIN_SERVER_APP_NAME: z.string().min(1),
+  DATABASE_URL: z.string().min(1),
+
+});
+type Env = z.infer<typeof envSchema>;
+export const ENV: Env = envSchema.parse(process.env);
+export const config = {
+  port: ENV.ADMIN_SERVER_APP_NAME,
+  app_name: ENV.ADMIN_SERVER_APP_NAME,
+};
+
+export type Config = typeof config;
