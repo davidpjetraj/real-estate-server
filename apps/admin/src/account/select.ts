@@ -10,5 +10,6 @@ export const accountSelect: Prisma.AdminSelect = {
   birthday: true,
   status: true,
   deleted: true,
+  created_at: true,
 };
 

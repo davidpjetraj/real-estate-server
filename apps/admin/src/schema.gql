@@ -31,7 +31,7 @@ type AccountModel {
   email: String!
 
   """The phone of the account"""
-  phone: String!
+  phone: String
 
   """The birthday of the account"""
   birthday: DateTime!

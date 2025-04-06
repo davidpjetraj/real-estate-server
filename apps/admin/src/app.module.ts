@@ -15,6 +15,8 @@ import { PrismaModule } from 'libs/common/src/prisma';
     }),
     JwtModule.register({
       global: true,
+      secret: config.jwt_secret,
+      signOptions: { expiresIn: config.access_token_expires_in },
     }),
     AuthModule,
     PrismaModule,

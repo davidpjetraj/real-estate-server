@@ -23,7 +23,10 @@ export class AccountModel {
   @Field(() => String, { description: 'The email of the account' })
   email: string;
 
-  @Field(() => String, { description: 'The phone of the account' })
+  @Field(() => String, {
+    description: 'The phone of the account',
+    nullable: true,
+  })
   phone?: string;
 
   @Field(() => Date, { description: 'The birthday of the account' })
