@@ -16,6 +16,24 @@ model Admin {
   password   String
   phone      String?   @unique
   birthday   DateTime?
+  status     AdminStatus
+  deleted    Boolean @default(false)
+  sessions   AdminSession[]
+
   created_at DateTime  @default(now())
   updated_at DateTime? @updatedAt
+}
+
+model AdminSession {
+  id            String   @id @default(uuid())
+  admin_id      String
+  admin         Admin    @relation(fields: [admin_id], references: [id])
+  refresh_token String?
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+}
+
+enum AdminStatus{
+  active
+  deactivated
 }

@@ -4,28 +4,82 @@
 
 directive @upper on FIELD_DEFINITION
 
-type Auth {
-  """Example field (placeholder)"""
-  exampleField: Int!
+"""Auth model"""
+type AuthModel {
+  """The access token of the authenticated user"""
+  access_token: String!
+
+  """The refresh token of the authenticated user"""
+  refresh_token: String!
+}
+
+"""Account model"""
+type AccountModel {
+  """The id of the account"""
+  id: String!
+
+  """The first name of the account"""
+  first_name: String!
+
+  """The last name of the account"""
+  last_name: String!
+
+  """The name of the account"""
+  name: String!
+
+  """The email of the account"""
+  email: String!
+
+  """The phone of the account"""
+  phone: String!
+
+  """The birthday of the account"""
+  birthday: DateTime!
+
+  """The status of the account"""
+  status: AdminStatus!
+
+  """The created date of the account"""
+  created_at: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+enum AdminStatus {
+  active
+  deactivated
 }
 
 type Query {
-  auth(id: Int!): Auth!
+  account: AccountModel!
 }
 
 type Mutation {
-  createAuth(createAuthInput: CreateAuthInput!): Auth!
-  updateAuth(updateAuthInput: UpdateAuthInput!): Auth!
-  removeAuth(id: Int!): Auth!
+  register(input: RegisterInput!): AuthModel!
+  login(input: LoginInput!): String!
+  verifyLogin(input: VerifyLoginInput!): AuthModel!
 }
 
-input CreateAuthInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+input RegisterInput {
+  first_name: String!
+  last_name: String!
+  email: String!
+  password: String!
+  phone: String
+  birthday: DateTime
 }
 
-input UpdateAuthInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+"""Verify login input"""
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+"""Verify login input"""
+input VerifyLoginInput {
+  """Verify Token"""
+  token: String!
 }
