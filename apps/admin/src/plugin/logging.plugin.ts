@@ -4,27 +4,20 @@ import { Plugin } from '@nestjs/apollo';
 
 @Plugin()
 export class LoggingPlugin implements ApolloServerPlugin {
-  async requestDidStart(ctx): Promise<GraphQLRequestListener<any>> {
-    if (ctx.request.operationName !== 'IntrospectionQuery') {
-      console.log('Request started');
-    }
-
+  async requestDidStart(): Promise<GraphQLRequestListener<any>> {
     return {
-      async didResolveOperation(ctx: any) {
-        if (ctx.request.operationName !== 'IntrospectionQuery') {
-          logger.log(`Request resolved`);
-        }
+      async didResolveOperation() {
+        logger.log('Request resolved');
       },
-
       async didEncounterErrors(ctx) {
         if (ctx.errors) {
           logger.error(
-            `Errors encountered`,
+            'Errors encountered',
             JSON.stringify({
               metadata: {
                 error: ctx?.errors[0],
                 cluster: process.env.CLUSTER_NAME || 'local',
-                stack: ctx?.errors[0]?.stack.toString(),
+                stack: ctx?.errors[0]?.stack?.toString(),
                 user: ctx?.contextValue?.req?.user?.userID,
                 query: ctx?.request?.query,
                 variables: ctx?.request?.variables,
@@ -34,12 +27,10 @@ export class LoggingPlugin implements ApolloServerPlugin {
           );
         }
       },
-
-      async willSendResponse(ctx) {
-        if (ctx.request.operationName !== 'IntrospectionQuery') {
-          logger.log(`Will send response`);
-        }
+      async willSendResponse() {
+        logger.log('Will send response');
       },
     };
   }
 }
+

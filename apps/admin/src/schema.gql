@@ -1,24 +1,31 @@
-type User {
-  # Example field (placeholder)
-  exampleField: Int
-}
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
 
-input CreateUserInput {
-  # Example field (placeholder)
-  exampleField: Int
-}
+directive @upper on FIELD_DEFINITION
 
-input UpdateUserInput {
-  id: Int!
+type Auth {
+  """Example field (placeholder)"""
+  exampleField: Int!
 }
 
 type Query {
-  users: [User]!
-  user(id: Int!): User
+  auth(id: Int!): Auth!
 }
 
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User
+  createAuth(createAuthInput: CreateAuthInput!): Auth!
+  updateAuth(updateAuthInput: UpdateAuthInput!): Auth!
+  removeAuth(id: Int!): Auth!
+}
+
+input CreateAuthInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateAuthInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }

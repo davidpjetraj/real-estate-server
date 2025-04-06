@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import helmet from 'helmet';
@@ -9,8 +11,9 @@ async function bootstrap() {
   app.enableCors();
   app.use(helmet());
 
-  await app.listen(config.port, async () => {
+  await app.listen(config.admin_server_port, async () => {
     console.log(`${config.app_name}: Listening on ${await app.getUrl()}`);
   });
 }
 bootstrap();
+

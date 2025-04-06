@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { GqlOptionsFactory } from '@nestjs/graphql';
 import { ApolloDriverConfig } from '@nestjs/apollo';
 import { DirectiveLocation, GraphQLDirective } from 'graphql';
-import depthLimit from 'graphql-depth-limit';
+const depthLimit = require('graphql-depth-limit');
 import { LoggingPlugin } from './plugin/logging.plugin';
 
 @Injectable()
