@@ -1,11 +1,11 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
 import { AuthModel } from './model';
-import { RegisterInput, VerifyLoginInput } from './input';
+import { LogoutInput, RegisterInput, VerifyLoginInput } from './input';
 import { LoginInput } from './input/login.input';
 import { AccountModel } from '../account/model';
 import { Auth } from '../decorators/auth.decorator';
-import { SessionDecorator } from '../decorators/session.decorator';
+import { ISession, SessionDecorator } from '../decorators/session.decorator';
 
 @Resolver(() => 'Auth')
 export class AuthResolver {
@@ -30,5 +30,13 @@ export class AuthResolver {
   @Query(() => AccountModel)
   async account(@SessionDecorator('admin_id') admin_id: string) {
     return await this.authService.account(admin_id);
+  }
+
+  @Auth()
+  @Mutation(() => Boolean)
+  async logout(
+    @SessionDecorator('admin_id') session: ISession,
+  ): Promise<boolean> {
+    return await this.authService.logout(session.session_id, session.admin_id);
   }
 }
