@@ -20,7 +20,7 @@ export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
-  ) {}
+  ) { }
 
   async login(email: string, password: string): Promise<string> {
     const user = await this.prisma.admin.findUnique({
@@ -226,13 +226,8 @@ export class AuthService {
   async destroySession(admin_id: string, current_session_id?: string) {
     const sessionToRemoveWhere: Prisma.AdminSessionWhereInput = {
       admin_id,
+      ...(current_session_id && { id: { not: current_session_id } }),
     };
-
-    if (current_session_id) {
-      sessionToRemoveWhere.id = {
-        not: current_session_id,
-      };
-    }
 
     await this.prisma.adminSession.deleteMany({
       where: sessionToRemoveWhere,

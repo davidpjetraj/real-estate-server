@@ -8,16 +8,16 @@ datasource db {
 }
 
 model Admin {
-  id         String    @id @default(uuid())
+  id         String         @id @default(uuid())
   first_name String
   last_name  String
   name       String
-  email      String    @unique
+  email      String         @unique
   password   String
-  phone      String?   @unique
+  phone      String?        @unique
   birthday   DateTime?
-  status     AdminStatus
-  deleted    Boolean @default(false)
+  status     AdminStatus    @default(active)
+  deleted    Boolean        @default(false)
   sessions   AdminSession[]
 
   created_at DateTime  @default(now())
@@ -33,7 +33,7 @@ model AdminSession {
   updated_at    DateTime @updatedAt
 }
 
-enum AdminStatus{
+enum AdminStatus {
   active
   deactivated
 }

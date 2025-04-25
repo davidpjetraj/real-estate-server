@@ -39,6 +39,9 @@ type AccountModel {
   """The status of the account"""
   status: AdminStatus!
 
+  """The deleted status of the account"""
+  deleted: Boolean!
+
   """The created date of the account"""
   created_at: DateTime!
 }
@@ -48,13 +51,95 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+"""The status of an admin user"""
 enum AdminStatus {
   active
   deactivated
 }
 
+type TeamModel {
+  """The id of the account"""
+  id: String!
+
+  """The first name of the account"""
+  first_name: String!
+
+  """The last name of the account"""
+  last_name: String!
+
+  """The name of the account"""
+  name: String!
+
+  """The email of the account"""
+  email: String!
+
+  """The phone of the account"""
+  phone: String
+
+  """The birthday of the account"""
+  birthday: DateTime!
+
+  """The status of the account"""
+  status: AdminStatus!
+
+  """The deleted status of the account"""
+  deleted: Boolean!
+
+  """The created date of the account"""
+  created_at: DateTime!
+}
+
+type TeamListModel {
+  edges: [TeamModelRelayEdge!]!
+  pageInfo: RelayPageInfo!
+  search: String
+}
+
+type TeamModelRelayEdge {
+  cursor: String!
+  node: TeamModel!
+}
+
+type RelayPageInfo {
+  startCursor: String
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
 type Query {
   account: AccountModel!
+  getTeams(input: GetAllTeamsInput!): TeamListModel!
+}
+
+"""Get All Teams Input"""
+input GetAllTeamsInput {
+  """Cursor"""
+  cursor: String
+
+  """Limit of data to return max 50"""
+  limit: Int = 20
+  sort: [SortType!]
+  filters: [FiltersInput!]
+}
+
+"""Sort Input Type"""
+input SortType {
+  id: String!
+  value: String!
+}
+
+input FiltersInput {
+  id: String!
+  search: String
+  multiselect: [String!]
+  users: [String!]
+  time_tracking_projects: [String!]
+  jobs: [String!]
+  switch: Boolean
+  date_range: [String!]
+  number_range: [String!]
+  type: String!
 }
 
 type Mutation {
@@ -62,6 +147,7 @@ type Mutation {
   login(input: LoginInput!): String!
   verifyLogin(input: VerifyLoginInput!): AuthModel!
   logout: Boolean!
+  createTeam(input: CreateTeamInput!): TeamModel!
 }
 
 input RegisterInput {
@@ -83,4 +169,13 @@ input LoginInput {
 input VerifyLoginInput {
   """Verify Token"""
   token: String!
+}
+
+input CreateTeamInput {
+  first_name: String!
+  last_name: String!
+  email: String!
+  password: String!
+  phone: String
+  birthday: DateTime
 }

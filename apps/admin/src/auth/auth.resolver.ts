@@ -9,7 +9,7 @@ import { ISession, SessionDecorator } from '../decorators/session.decorator';
 
 @Resolver(() => 'Auth')
 export class AuthResolver {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
   @Mutation(() => AuthModel)
   register(@Args('input') input: RegisterInput): Promise<AuthModel> {
@@ -35,7 +35,7 @@ export class AuthResolver {
   @Auth()
   @Mutation(() => Boolean)
   async logout(
-    @SessionDecorator('admin_id') session: ISession,
+    @SessionDecorator() session: ISession,
   ): Promise<boolean> {
     return await this.authService.logout(session.session_id, session.admin_id);
   }

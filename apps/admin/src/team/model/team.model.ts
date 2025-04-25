@@ -1,12 +1,13 @@
-import { ObjectType, Field, registerEnumType } from '@nestjs/graphql';
-import { AdminStatus } from '@prisma/client';
+import { Field, ObjectType, registerEnumType } from "@nestjs/graphql";
+import { AdminStatus } from "@prisma/client";
 
 registerEnumType(AdminStatus, {
   name: 'AdminStatus',
+  description: 'The status of an admin user',
 });
 
-@ObjectType({ description: 'Account model' })
-export class AccountModel {
+@ObjectType()
+export class TeamModel {
   @Field(() => String, { description: 'The id of the account' })
   id: string;
 
@@ -40,4 +41,3 @@ export class AccountModel {
   @Field(() => Date, { description: 'The created date of the account' })
   created_at: Date;
 }
-
