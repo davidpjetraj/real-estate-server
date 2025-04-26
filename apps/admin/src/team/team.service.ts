@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "libs/common/src/prisma";
-import { CreateTeamInput } from "./input";
+import { ChangeTeamStatusInput, CreateTeamInput, UpdateTeamInput } from "./input";
 import { TeamModel } from "./model";
 import { teamSelect } from "./select";
 import { AdminStatus, Prisma } from "@prisma/client";
@@ -22,6 +22,22 @@ export class TeamService {
     });
 
     return team;
+  }
+
+  async findOne(id: string) {
+    try {
+      const team = await this.prisma.admin.findUnique({
+        where: { id },
+        select: teamSelect,
+      });
+      return team;
+    } catch (error) {
+      console.log('error', error);
+      if (error.code === 'P2025') {
+        throw new GraphQLError('Admini nuk ekziston!');
+      }
+      throw new GraphQLError('Diqka shkoi gabim!');
+    }
   }
 
   async findAll(query: GetAllTeamsInput) {
@@ -84,5 +100,50 @@ export class TeamService {
       throw new GraphQLError('Diqka shkoi gabim!');
     }
   }
-}
 
+  async updateTeam(input: UpdateTeamInput) {
+    try {
+      const team = await this.prisma.admin.update({
+        where: {
+          id: input.id,
+          status: 'active',
+          deleted: false
+        },
+        data: {
+          ...input,
+          name: `${input?.first_name} ${input?.last_name}`,
+        },
+        select: teamSelect
+      });
+
+      return team
+    } catch (error) {
+      if (error.code === 'P2025') {
+        throw new GraphQLError('Admini nuk ekziston!');
+      }
+      throw new GraphQLError('Diqka shkoi gabim!');
+    }
+  }
+
+  async changeTeamStatus(input: ChangeTeamStatusInput): Promise<boolean> {
+    try {
+      await this.prisma.admin.update({
+        where: {
+          id: input.id
+        },
+        data: {
+          status: input.status,
+          deleted: input.deleted
+        }
+
+      })
+
+      return true
+    } catch (error) {
+      if (error.code === 'P2025') {
+        throw new GraphQLError('Admini nuk ekziston!');
+      }
+      throw new GraphQLError('Diqka shkoi gabim!');
+    }
+  }
+}

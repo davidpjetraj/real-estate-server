@@ -109,7 +109,12 @@ type RelayPageInfo {
 
 type Query {
   account: AccountModel!
+  getTeamById(input: GetTeamByIDInput!): TeamModel!
   getTeams(input: GetAllTeamsInput!): TeamListModel!
+}
+
+input GetTeamByIDInput {
+  id: ID!
 }
 
 """Get All Teams Input"""
@@ -148,6 +153,7 @@ type Mutation {
   verifyLogin(input: VerifyLoginInput!): AuthModel!
   logout: Boolean!
   createTeam(input: CreateTeamInput!): TeamModel!
+  UpdateTeam(input: UpdateTeamInput!): TeamModel!
 }
 
 input RegisterInput {
@@ -177,5 +183,12 @@ input CreateTeamInput {
   email: String!
   password: String!
   phone: String
+  birthday: DateTime
+}
+
+input UpdateTeamInput {
+  id: ID!
+  first_name: String
+  last_name: String
   birthday: DateTime
 }
