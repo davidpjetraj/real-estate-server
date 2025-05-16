@@ -154,6 +154,10 @@ type Mutation {
   logout: Boolean!
   createTeam(input: CreateTeamInput!): TeamModel!
   UpdateTeam(input: UpdateTeamInput!): TeamModel!
+  changeTeamStatus(input: ChangeTeamStatusInput!): Boolean!
+  updateName(input: UpdateNameInput!): AccountModel!
+  changeEmail(input: ChangeEmailInput!): AccountModel!
+  changePhone(input: ChangePhoneInput!): AccountModel!
 }
 
 input RegisterInput {
@@ -191,4 +195,26 @@ input UpdateTeamInput {
   first_name: String
   last_name: String
   birthday: DateTime
+}
+
+input ChangeTeamStatusInput {
+  id: ID!
+  status: AdminStatus!
+  deleted: Boolean!
+}
+
+"""Update Name Input"""
+input UpdateNameInput {
+  first_name: String
+  last_name: String
+}
+
+"""Change Email Input"""
+input ChangeEmailInput {
+  email: String!
+}
+
+"""Change Phone Input"""
+input ChangePhoneInput {
+  phone: String!
 }

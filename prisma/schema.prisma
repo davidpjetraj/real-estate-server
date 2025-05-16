@@ -19,6 +19,7 @@ model Admin {
   status     AdminStatus    @default(active)
   deleted    Boolean        @default(false)
   sessions   AdminSession[]
+  properties Property[]
 
   created_at DateTime  @default(now())
   updated_at DateTime? @updatedAt
@@ -33,7 +34,50 @@ model AdminSession {
   updated_at    DateTime @updatedAt
 }
 
+model Property {
+  id                String           @id @default(uuid())
+  short_id          Int              @default(autoincrement())
+  title             String
+  description       String
+  category          PropertyCategory
+  state             String
+  city              String
+  address           String
+  surface           Float?
+  floor             Int?
+  numberOfFloors    Int?
+  buildingYear      Int?
+  numberOfRooms     Int?
+  numberOfBathRooms Int?
+  numberOfBedRooms  Int?
+  numberOfBalconies Int?
+  sellPrice         Float?
+  rentPrice         Float?
+  status            PropertyStatus   @default(active)
+  forSale           Boolean
+  forRent           Boolean
+  published         Boolean          @default(false)
+  published_at      DateTime?
+  agent_id          String
+  agent             Admin            @relation(fields: [agent_id], references: [id])
+  deleted           Boolean          @default(false)
+  created_at        DateTime         @default(now())
+  updated_at        DateTime         @updatedAt
+}
+
 enum AdminStatus {
   active
   deactivated
+}
+
+enum PropertyStatus {
+  active
+  deactivated
+}
+
+enum PropertyCategory {
+  home
+  apartment
+  office
+  object
 }

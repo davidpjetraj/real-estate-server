@@ -1,22 +1,27 @@
-import { Injectable } from "@nestjs/common";
-import { PrismaService } from "libs/common/src/prisma";
-import { ChangeTeamStatusInput, CreateTeamInput, UpdateTeamInput } from "./input";
-import { TeamModel } from "./model";
-import { teamSelect } from "./select";
-import { AdminStatus, Prisma } from "@prisma/client";
-import { GraphQLError } from "graphql";
-import { createEdge } from "apps/admin/src/common/pagination/cursor-pagination/create-edge";
-import { GetAllTeamsInput } from "./input/get-all.input";
-import { extractFilters } from "../utils";
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'libs/common/src/prisma';
+import {
+  ChangeTeamStatusInput,
+  CreateTeamInput,
+  UpdateTeamInput,
+} from './input';
+import { TeamModel } from './model';
+import { teamSelect } from './select';
+import { AdminStatus, Prisma } from '@prisma/client';
+import { GraphQLError } from 'graphql';
+import { createEdge } from 'apps/admin/src/common/pagination/cursor-pagination/create-edge';
+import { GetAllTeamsInput } from './input/get-all.input';
+import { extractFilters } from '../utils';
 @Injectable()
 export class TeamService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   async createTeam(input: CreateTeamInput): Promise<TeamModel> {
     const team = await this.prisma.admin.create({
       data: {
         ...input,
         name: `${input.first_name} ${input.last_name}`,
+        status: 'active',
       },
       select: teamSelect,
     });
@@ -48,8 +53,7 @@ export class TeamService {
         ? Buffer.from(query.cursor, 'base64').toString('utf-8')
         : null;
 
-      const defaultQuery: Prisma.AdminWhereInput = {
-      };
+      const defaultQuery: Prisma.AdminWhereInput = {};
 
       const allQuery: Prisma.AdminFindManyArgs = {
         where: extractFilters(defaultQuery, query.filters, []),
@@ -107,16 +111,16 @@ export class TeamService {
         where: {
           id: input.id,
           status: 'active',
-          deleted: false
+          deleted: false,
         },
         data: {
           ...input,
           name: `${input?.first_name} ${input?.last_name}`,
         },
-        select: teamSelect
+        select: teamSelect,
       });
 
-      return team
+      return team;
     } catch (error) {
       if (error.code === 'P2025') {
         throw new GraphQLError('Admini nuk ekziston!');
@@ -129,16 +133,15 @@ export class TeamService {
     try {
       await this.prisma.admin.update({
         where: {
-          id: input.id
+          id: input.id,
         },
         data: {
           status: input.status,
-          deleted: input.deleted
-        }
+          deleted: input.deleted,
+        },
+      });
 
-      })
-
-      return true
+      return true;
     } catch (error) {
       if (error.code === 'P2025') {
         throw new GraphQLError('Admini nuk ekziston!');

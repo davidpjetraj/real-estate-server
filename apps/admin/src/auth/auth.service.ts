@@ -20,7 +20,7 @@ export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
-  ) { }
+  ) {}
 
   async login(email: string, password: string): Promise<string> {
     const user = await this.prisma.admin.findUnique({
@@ -117,10 +117,15 @@ export class AuthService {
   }
 
   async account(admin_id: string) {
-    return await this.prisma.admin.findUnique({
-      where: { id: admin_id },
-      select: accountSelect,
-    });
+    try {
+      return await this.prisma.admin.findUnique({
+        where: { id: admin_id },
+        select: accountSelect,
+      });
+    } catch (error) {
+      console.log('error: ', error);
+      throw new GraphQLError('Diqka shkoi gabim!');
+    }
   }
 
   async logout(session_id: string, admin_id: string) {
