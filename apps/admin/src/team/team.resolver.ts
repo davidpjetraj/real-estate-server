@@ -16,7 +16,7 @@ export class TeamResolver {
   }
 
   @Mutation(() => TeamModel)
-  async UpdateTeam(@Args('input') input: UpdateTeamInput): Promise<TeamModel> {
+  async updateTeam(@Args('input') input: UpdateTeamInput): Promise<TeamModel> {
     return this.teamService.updateTeam(input);
   }
 

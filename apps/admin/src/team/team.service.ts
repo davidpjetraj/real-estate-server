@@ -53,7 +53,14 @@ export class TeamService {
         ? Buffer.from(query.cursor, 'base64').toString('utf-8')
         : null;
 
-      const defaultQuery: Prisma.AdminWhereInput = {};
+      const defaultQuery: Prisma.AdminWhereInput = query.search
+        ? {
+            OR: [
+              { name: { contains: query.search, mode: 'insensitive' } },
+              { email: { contains: query.search, mode: 'insensitive' } },
+            ],
+          }
+        : {};
 
       const allQuery: Prisma.AdminFindManyArgs = {
         where: extractFilters(defaultQuery, query.filters, []),
@@ -101,6 +108,7 @@ export class TeamService {
         },
       };
     } catch (error) {
+      console.log('error: ', error);
       throw new GraphQLError('Diqka shkoi gabim!');
     }
   }
