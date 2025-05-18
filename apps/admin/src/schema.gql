@@ -107,10 +107,57 @@ type RelayPageInfo {
   hasPreviousPage: Boolean!
 }
 
+"""Property Model"""
+type PropertyModel {
+  id: ID!
+  short_id: Int!
+  title: String!
+  description: String!
+  category: PropertyCategory!
+  state: String!
+  city: String!
+  address: String!
+  surface: Float
+  floor: Int
+  numberOfFloors: Int
+  buildingYear: Int
+  numberOfRooms: Int
+  numberOfBathRooms: Int
+  numberOfBedRooms: Int
+  numberOfBalconies: Int
+  sellPrice: Float
+  rentPrice: Float
+  forSale: Boolean!
+  forRent: Boolean!
+  agent: TeamModel!
+  deleted: Boolean!
+  created_at: DateTime!
+}
+
+"""Property Category"""
+enum PropertyCategory {
+  home
+  apartment
+  office
+  object
+}
+
+type PropertyListModel {
+  edges: [PropertyModelRelayEdge!]!
+  pageInfo: RelayPageInfo!
+  search: String
+}
+
+type PropertyModelRelayEdge {
+  cursor: String!
+  node: PropertyModel!
+}
+
 type Query {
   account: AccountModel!
   getTeamById(input: GetTeamByIDInput!): TeamModel!
   getTeams(input: GetAllTeamsInput!): TeamListModel!
+  properties(input: GetAllPropertiesInput!): PropertyListModel!
 }
 
 input GetTeamByIDInput {
@@ -148,6 +195,18 @@ input FiltersInput {
   type: String!
 }
 
+"""Get All Properties Input"""
+input GetAllPropertiesInput {
+  """Cursor"""
+  cursor: String
+
+  """Limit of data to return max 50"""
+  limit: Int = 20
+  sort: [SortType!]
+  filters: [FiltersInput!]
+  search: String
+}
+
 type Mutation {
   register(input: RegisterInput!): AuthModel!
   login(input: LoginInput!): String!
@@ -159,6 +218,8 @@ type Mutation {
   updateName(input: UpdateNameInput!): AccountModel!
   changeEmail(input: ChangeEmailInput!): AccountModel!
   changePhone(input: ChangePhoneInput!): AccountModel!
+  createProperty(input: CreatePropertyInput!): PropertyModel!
+  updateProperty(input: UpdatePropertyInput!): PropertyModel!
 }
 
 input RegisterInput {
@@ -218,4 +279,51 @@ input ChangeEmailInput {
 """Change Phone Input"""
 input ChangePhoneInput {
   phone: String!
+}
+
+"""Create Property Input"""
+input CreatePropertyInput {
+  title: String!
+  description: String!
+  category: PropertyCategory!
+  state: String!
+  city: String!
+  address: String!
+  surface: Float
+  numberOfFloors: Int
+  buildingYear: Int
+  numberOfRooms: Int
+  numberOfBathRooms: Int
+  numberOfBedRooms: Int
+  numberOfBalconies: Int
+  sellPrice: Float
+  rentPrice: Float
+  forSale: Boolean!
+  forRent: Boolean!
+  published: Boolean!
+  agent_id: String!
+}
+
+"""Update Property Input"""
+input UpdatePropertyInput {
+  title: String
+  description: String
+  category: PropertyCategory
+  state: String
+  city: String
+  address: String
+  surface: Float
+  numberOfFloors: Int
+  buildingYear: Int
+  numberOfRooms: Int
+  numberOfBathRooms: Int
+  numberOfBedRooms: Int
+  numberOfBalconies: Int
+  sellPrice: Float
+  rentPrice: Float
+  forSale: Boolean
+  forRent: Boolean
+  published: Boolean
+  agent_id: String
+  id: String!
 }
