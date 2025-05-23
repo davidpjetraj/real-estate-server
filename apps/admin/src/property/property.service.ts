@@ -4,6 +4,8 @@ import { PropertyModel } from './model/property.model';
 import {
   CreatePropertyInput,
   GetAllPropertiesInput,
+  GetPropertyInput,
+  RemoveRestorePropertyInput,
   UpdatePropertyInput,
 } from './input';
 import { propertySelect } from './select';
@@ -132,6 +134,67 @@ export class PropertyService {
     } catch (error) {
       console.log('error: ', error);
       throw new GraphQLError('Diqka shkoi gabim!');
+    }
+  }
+
+  async findOne(input: GetPropertyInput): Promise<PropertyModel> {
+    const property = await this.prisma.property.findUnique({
+      where: {
+        id: input.id,
+        status: 'active',
+        deleted: false,
+      },
+      select: propertySelect,
+    });
+
+    return property;
+  }
+
+  async removeProperty(input: RemoveRestorePropertyInput) {
+    try {
+      await this.prisma.property.update({
+        where: {
+          id: input.id,
+          status: 'active',
+          deleted: false,
+        },
+        data: {
+          deleted: true,
+          status: 'deactivated',
+        },
+      });
+
+      return true;
+    } catch (error) {
+      if (error.code === 'P2025') {
+        throw new GraphQLError('Të dhënat nuk u gjetën ose janë fshirë.');
+      }
+
+      throw new GraphQLError('Diçka shkoi gabim!');
+    }
+  }
+
+  async restoreProperty(input: RemoveRestorePropertyInput) {
+    try {
+      await this.prisma.property.update({
+        where: {
+          id: input.id,
+          status: 'deactivated',
+          deleted: true,
+        },
+        data: {
+          deleted: false,
+          status: 'active',
+        },
+      });
+
+      return true;
+    } catch (error) {
+      if (error.code === 'P2025') {
+        throw new GraphQLError('Të dhënat nuk u gjetën ose janë fshirë.');
+      }
+
+      throw new GraphQLError('Diçka shkoi gabim!');
     }
   }
 }

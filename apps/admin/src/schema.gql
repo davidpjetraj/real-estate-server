@@ -158,6 +158,7 @@ type Query {
   getTeamById(input: GetTeamByIDInput!): TeamModel!
   getTeams(input: GetAllTeamsInput!): TeamListModel!
   properties(input: GetAllPropertiesInput!): PropertyListModel!
+  getProperty(input: GetPropertyInput!): PropertyModel!
 }
 
 input GetTeamByIDInput {
@@ -207,6 +208,11 @@ input GetAllPropertiesInput {
   search: String
 }
 
+"""Get Property Input"""
+input GetPropertyInput {
+  id: String!
+}
+
 type Mutation {
   register(input: RegisterInput!): AuthModel!
   login(input: LoginInput!): String!
@@ -220,6 +226,8 @@ type Mutation {
   changePhone(input: ChangePhoneInput!): AccountModel!
   createProperty(input: CreatePropertyInput!): PropertyModel!
   updateProperty(input: UpdatePropertyInput!): PropertyModel!
+  removeProperty(input: RemoveRestorePropertyInput!): Boolean!
+  restoreProperty(input: RemoveRestorePropertyInput!): Boolean!
 }
 
 input RegisterInput {
@@ -325,5 +333,10 @@ input UpdatePropertyInput {
   forRent: Boolean
   published: Boolean
   agent_id: String
+  id: String!
+}
+
+"""Remove & Restore Property Input"""
+input RemoveRestorePropertyInput {
   id: String!
 }

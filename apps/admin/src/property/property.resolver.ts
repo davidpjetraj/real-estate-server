@@ -5,6 +5,8 @@ import { PropertyListModel, PropertyModel } from './model';
 import {
   CreatePropertyInput,
   GetAllPropertiesInput,
+  GetPropertyInput,
+  RemoveRestorePropertyInput,
   UpdatePropertyInput,
 } from './input';
 
@@ -34,6 +36,30 @@ export class PropertyResolver {
     @Args('input') input: GetAllPropertiesInput,
   ): Promise<PropertyListModel> {
     return await this.propertyService.findAll(input);
+  }
+
+  @Auth()
+  @Query(() => PropertyModel)
+  async getProperty(
+    @Args('input') input: GetPropertyInput,
+  ): Promise<PropertyModel> {
+    return await this.propertyService.findOne(input);
+  }
+
+  @Auth()
+  @Mutation(() => Boolean)
+  async removeProperty(
+    @Args('input') input: RemoveRestorePropertyInput,
+  ): Promise<boolean> {
+    return await this.propertyService.removeProperty(input);
+  }
+
+  @Auth()
+  @Mutation(() => Boolean)
+  async restoreProperty(
+    @Args('input') input: RemoveRestorePropertyInput,
+  ): Promise<boolean> {
+    return await this.propertyService.restoreProperty(input);
   }
 }
 
