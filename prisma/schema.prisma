@@ -22,13 +22,44 @@ model Admin {
   properties Property[]
 
   created_at DateTime  @default(now())
-  updated_at DateTime? @updatedAt
+  updated_at DateTime @updatedAt
 }
 
 model AdminSession {
   id            String   @id @default(uuid())
   admin_id      String
   admin         Admin    @relation(fields: [admin_id], references: [id])
+  refresh_token String?
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+}
+
+model Client {
+  id         String         @id @default(uuid())
+  first_name String
+  last_name  String
+  name       String
+  email      String         @unique
+  password   String
+  phone      String?        @unique
+  birthday   DateTime?
+  status     ClientStatus   @default(active)
+  state      String?
+  city       String?
+  address    String?
+  deleted    Boolean        @default(false)
+  sessions   ClientSession[]
+  properties Property[]
+
+  created_at DateTime  @default(now())
+  updated_at DateTime @updatedAt
+}
+
+
+model ClientSession {
+  id            String   @id @default(uuid())
+  client_id      String
+  client         Client    @relation(fields: [client_id], references: [id])
   refresh_token String?
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt
@@ -60,6 +91,8 @@ model Property {
   published_at      DateTime?
   agent_id          String
   agent             Admin            @relation(fields: [agent_id], references: [id])
+  client_id         String?
+  client            Client?          @relation(fields: [client_id], references: [id])
   deleted           Boolean          @default(false)
   created_at        DateTime         @default(now())
   updated_at        DateTime         @updatedAt
@@ -67,6 +100,12 @@ model Property {
 
 enum AdminStatus {
   active
+  deactivated
+}
+
+enum ClientStatus {
+  active
+  invited
   deactivated
 }
 

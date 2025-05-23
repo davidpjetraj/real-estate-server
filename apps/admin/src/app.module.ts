@@ -9,6 +9,7 @@ import { PrismaModule } from 'libs/common/src/prisma';
 import { TeamModule } from './team/team.module';
 import { AccountModule } from './account/account.module';
 import { PropertyModule } from './property/property.module';
+import { ClientModule } from './client/client.module';
 @Module({
   imports: [
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
@@ -24,6 +25,7 @@ import { PropertyModule } from './property/property.module';
     TeamModule,
     AccountModule,
     PropertyModule,
+    ClientModule,
     PrismaModule,
   ],
 })

@@ -1,81 +1,74 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'libs/common/src/prisma';
-import { PropertyModel } from './model/property.model';
 import {
-  CreatePropertyInput,
-  GetAllPropertiesInput,
-  GetPropertyInput,
-  RemoveRestorePropertyInput,
-  UpdatePropertyInput,
+  CreateClientInput,
+  GetClientInput,
+  RemoveRestoreClientInput,
+  UpdateClientInput,
 } from './input';
-import { propertySelect } from './select';
+import { clientSelect } from './select';
+import * as argon2 from 'argon2';
 import { GraphQLError } from 'graphql';
+import { ClientModel } from './model';
 import { Prisma } from '@prisma/client';
+import { GetAllClientsInput } from './input/get-all.input';
 import { extractFilters } from '../utils';
 import { createEdge } from '../common/pagination';
 
 @Injectable()
-export class PropertyService {
+export class ClientService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createProperty(input: CreatePropertyInput): Promise<PropertyModel> {
+  async createClient(input: CreateClientInput) {
     try {
-      const agent = await this.prisma.admin.findUnique({
-        where: {
-          id: input.agent_id,
-          status: 'active',
-          deleted: false,
-        },
-      });
+      const hashedPassword = await argon2.hash(input.password);
 
-      if (!agent) {
-        throw new GraphQLError('Agjenti nuk u gjet');
-      }
-
-      // Destructure agent_id out of input to avoid Prisma conflict
-      const { agent_id, ...propertyData } = input;
-
-      const property = await this.prisma.property.create({
+      const client = await this.prisma.client.create({
         data: {
-          ...propertyData,
-          agent: {
-            connect: { id: agent.id },
-          },
+          ...input,
+          name: `${input.first_name} ${input.last_name}`,
+          password: hashedPassword,
+          status: 'invited',
         },
-        select: propertySelect,
+        select: clientSelect,
       });
 
-      return property;
+      return client;
     } catch (error) {
-      if (error instanceof GraphQLError) {
-        throw error;
+      if (error.code === 'P2002') {
+        throw new GraphQLError('Email-i është i zënë');
       }
       throw new GraphQLError('Diqka shkoi gabim!');
     }
   }
 
-  async updateProperty(input: UpdatePropertyInput): Promise<PropertyModel> {
+  async updateClient(input: UpdateClientInput): Promise<ClientModel> {
     try {
-      const property = await this.prisma.property.update({
+      const client = await this.prisma.client.update({
         where: {
           id: input.id,
-          status: 'active',
           deleted: false,
         },
-        data: input,
-        select: propertySelect,
+        data: {
+          ...input,
+          name: `${input.first_name} ${input.last_name}`,
+        },
+        select: clientSelect,
       });
-      return property;
+
+      return client;
     } catch (error) {
       if (error.code === 'P2025') {
         throw new GraphQLError('Të dhënat nuk u gjetën ose janë fshirë.');
       }
-
-      throw new GraphQLError('Diçka shkoi gabim!');
+      if (error.code === 'P2002') {
+        throw new GraphQLError('Email-i është i zënë');
+      }
+      throw new GraphQLError('Diqka shkoi gabim!');
     }
   }
 
-  async findAll(query: GetAllPropertiesInput) {
+  async findAll(query: GetAllClientsInput) {
     try {
       const take = query?.limit || 20;
 
@@ -93,9 +86,9 @@ export class PropertyService {
           }
         : {};
 
-      const allQuery: Prisma.PropertyFindManyArgs = {
+      const allQuery: Prisma.ClientFindManyArgs = {
         where: extractFilters(defaultQuery, query.filters, []),
-        select: propertySelect,
+        select: clientSelect,
         take: take + 1,
         orderBy: { created_at: 'desc' },
       };
@@ -114,7 +107,7 @@ export class PropertyService {
         allQuery.orderBy = { created_at: 'desc' };
       }
 
-      const dataQuery = await this.prisma.property.findMany(allQuery);
+      const dataQuery = await this.prisma.client.findMany(allQuery);
 
       const hasNextPage = dataQuery.length > take;
 
@@ -144,25 +137,23 @@ export class PropertyService {
     }
   }
 
-  async findOne(input: GetPropertyInput): Promise<PropertyModel> {
+  async findOne(input: GetClientInput): Promise<ClientModel> {
     const property = await this.prisma.property.findUnique({
       where: {
         id: input.id,
-        status: 'active',
         deleted: false,
       },
-      select: propertySelect,
+      select: clientSelect,
     });
 
     return property;
   }
 
-  async removeProperty(input: RemoveRestorePropertyInput) {
+  async removeClient(input: RemoveRestoreClientInput) {
     try {
-      await this.prisma.property.update({
+      await this.prisma.client.update({
         where: {
           id: input.id,
-          status: 'active',
           deleted: false,
         },
         data: {
@@ -181,9 +172,9 @@ export class PropertyService {
     }
   }
 
-  async restoreProperty(input: RemoveRestorePropertyInput) {
+  async restoreClient(input: RemoveRestoreClientInput) {
     try {
-      await this.prisma.property.update({
+      await this.prisma.client.update({
         where: {
           id: input.id,
           status: 'deactivated',
