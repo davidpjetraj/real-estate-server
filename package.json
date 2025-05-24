@@ -11,9 +11,9 @@
   "scripts": {
     "build": "npx nest build",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
-    "start": "nest start",
-    "start:dev": "nest start --watch",
-    "dev": "nest start --watch",
+    "start": "npx nest start",
+    "start:dev": "npx nest start --watch",
+    "dev": "npx nest start --watch",
     "push": "npx prisma db push",
     "gen": "npx prisma generate",
     "prisma": "npx prisma studio",
