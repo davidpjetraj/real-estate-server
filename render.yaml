@@ -3,13 +3,7 @@ services:
     name: real-estate-server
     env: node
     nodeVersion: 23.10.0
-    buildCommand: |
-      npm install -g corepack
-      corepack enable
-      corepack prepare yarn@4.4.1 --activate
-      yarn install --immutable
-      yarn gen
-      yarn build
+    buildCommand: yarn install && yarn build
     startCommand: yarn start:prod
     envVars:
       - key: NODE_ENV
