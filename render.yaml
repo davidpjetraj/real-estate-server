@@ -2,10 +2,11 @@ services:
   - type: web
     name: real-estate-server
     env: node
+    nodeVersion: 20.11.1
     buildCommand: |
+      npm install -g corepack
       corepack enable
       corepack prepare yarn@4.4.1 --activate
-      yarn set version 4.4.1
       yarn install
       yarn gen
       yarn build
