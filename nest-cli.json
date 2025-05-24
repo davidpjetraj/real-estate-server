@@ -5,7 +5,9 @@
   "compilerOptions": {
     "deleteOutDir": true,
     "webpack": true,
-    "tsConfigPath": "apps/admin/tsconfig.app.json"
+    "tsConfigPath": "apps/admin/tsconfig.app.json",
+    "assets": ["**/*.proto"],
+    "watchAssets": true
   },
   "monorepo": true,
   "root": "apps/admin",
@@ -16,7 +18,8 @@
       "entryFile": "main",
       "sourceRoot": "apps/admin/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/admin/tsconfig.app.json"
+        "tsConfigPath": "apps/admin/tsconfig.app.json",
+        "webpack": true
       }
     },
     "client": {
@@ -25,7 +28,8 @@
       "entryFile": "main",
       "sourceRoot": "apps/client/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/client/tsconfig.app.json"
+        "tsConfigPath": "apps/client/tsconfig.app.json",
+        "webpack": true
       }
     }
   }
