@@ -2,17 +2,19 @@ services:
   - type: web
     name: real-estate-server
     env: node
-    nodeVersion: 20.11.1
+    nodeVersion: 23.10.0
     buildCommand: |
       npm install -g corepack
       corepack enable
       corepack prepare yarn@4.4.1 --activate
-      yarn install
+      yarn install --immutable
       yarn gen
       yarn build
-    startCommand: yarn deploy:start
+    startCommand: yarn start:prod
     envVars:
       - key: NODE_ENV
         value: production
       - key: DATABASE_URL
         sync: false
+      - key: YARN_ENABLE_IMMUTABLE_INSTALLS
+        value: 'true'
