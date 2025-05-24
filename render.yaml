@@ -2,7 +2,13 @@ services:
   - type: web
     name: real-estate-server
     env: node
-    buildCommand: corepack enable && yarn set version 4.4.1 && yarn deploy:prepare
+    buildCommand: |
+      corepack enable
+      corepack prepare yarn@4.4.1 --activate
+      yarn set version 4.4.1
+      yarn install
+      yarn gen
+      yarn build
     startCommand: yarn deploy:start
     envVars:
       - key: NODE_ENV
