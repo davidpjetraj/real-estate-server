@@ -3,7 +3,7 @@ services:
     name: real-estate-server
     env: node
     nodeVersion: 22.14.0
-    buildCommand: yarn install && yarn build
+    buildCommand: yarn install && yarn gen && yarn build
     startCommand: yarn start:prod
     envVars:
       - key: NODE_ENV
