@@ -1,6 +1,11 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { ClientStatus } from '@prisma/client';
 import { SimplePropertyModel } from '../../property/model';
+
+registerEnumType(ClientStatus, {
+  name: 'ClientStatus',
+  description: 'The status of a client',
+});
 
 @ObjectType({
   description: 'Client Model',

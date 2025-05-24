@@ -142,6 +142,32 @@ enum PropertyCategory {
   object
 }
 
+"""Simple Property Model"""
+type SimplePropertyModel {
+  id: ID!
+  short_id: Int!
+  title: String!
+  description: String!
+  category: PropertyCategory!
+  state: String!
+  city: String!
+  address: String!
+  surface: Float
+  floor: Int
+  numberOfFloors: Int
+  buildingYear: Int
+  numberOfRooms: Int
+  numberOfBathRooms: Int
+  numberOfBedRooms: Int
+  numberOfBalconies: Int
+  sellPrice: Float
+  rentPrice: Float
+  forSale: Boolean!
+  forRent: Boolean!
+  deleted: Boolean!
+  created_at: DateTime!
+}
+
 type PropertyListModel {
   edges: [PropertyModelRelayEdge!]!
   pageInfo: RelayPageInfo!
@@ -153,12 +179,50 @@ type PropertyModelRelayEdge {
   node: PropertyModel!
 }
 
+"""Client Model"""
+type ClientModel {
+  id: ID!
+  first_name: String!
+  last_name: String!
+  name: String!
+  email: String!
+  phone: String
+  birthday: DateTime
+  status: ClientStatus!
+  state: String
+  city: String
+  address: String
+  properties: [SimplePropertyModel!]
+  deleted: Boolean!
+  created_at: DateTime!
+}
+
+"""The status of a client"""
+enum ClientStatus {
+  active
+  invited
+  deactivated
+}
+
+type ClientListModel {
+  edges: [ClientModelRelayEdge!]!
+  pageInfo: RelayPageInfo!
+  search: String
+}
+
+type ClientModelRelayEdge {
+  cursor: String!
+  node: ClientModel!
+}
+
 type Query {
   account: AccountModel!
   getTeamById(input: GetTeamByIDInput!): TeamModel!
   getTeams(input: GetAllTeamsInput!): TeamListModel!
   properties(input: GetAllPropertiesInput!): PropertyListModel!
   getProperty(input: GetPropertyInput!): PropertyModel!
+  clients(input: GetAllClientsInput!): ClientListModel!
+  getClient(input: GetClientInput!): ClientModel!
 }
 
 input GetTeamByIDInput {
@@ -213,6 +277,23 @@ input GetPropertyInput {
   id: String!
 }
 
+"""Get All Clients Input"""
+input GetAllClientsInput {
+  """Cursor"""
+  cursor: String
+
+  """Limit of data to return max 50"""
+  limit: Int = 20
+  sort: [SortType!]
+  filters: [FiltersInput!]
+  search: String
+}
+
+"""Get Client Input"""
+input GetClientInput {
+  id: String!
+}
+
 type Mutation {
   register(input: RegisterInput!): AuthModel!
   login(input: LoginInput!): String!
@@ -228,6 +309,10 @@ type Mutation {
   updateProperty(input: UpdatePropertyInput!): PropertyModel!
   removeProperty(input: RemoveRestorePropertyInput!): Boolean!
   restoreProperty(input: RemoveRestorePropertyInput!): Boolean!
+  createClient(input: CreateClientInput!): ClientModel!
+  updateClient(input: UpdateClientInput!): ClientModel!
+  removeClient(input: RemoveRestoreClientInput!): Boolean!
+  restoreClient(input: RemoveRestoreClientInput!): Boolean!
 }
 
 input RegisterInput {
@@ -338,5 +423,35 @@ input UpdatePropertyInput {
 
 """Remove & Restore Property Input"""
 input RemoveRestorePropertyInput {
+  id: String!
+}
+
+input CreateClientInput {
+  first_name: String!
+  last_name: String!
+  email: String!
+  password: String!
+  phone: String
+  birthday: DateTime
+  state: String
+  city: String
+  address: String
+}
+
+input UpdateClientInput {
+  first_name: String
+  last_name: String
+  email: String
+  password: String
+  phone: String
+  birthday: DateTime
+  state: String
+  city: String
+  address: String
+  id: String!
+}
+
+"""Remove & Restore Client Input"""
+input RemoveRestoreClientInput {
   id: String!
 }
