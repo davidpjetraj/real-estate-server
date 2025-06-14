@@ -10,6 +10,7 @@ import { TeamModule } from './team/team.module';
 import { AccountModule } from './account/account.module';
 import { PropertyModule } from './property/property.module';
 import { ClientModule } from './client/client.module';
+import { RequestModule } from './request/request.module';
 @Module({
   imports: [
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
@@ -26,6 +27,7 @@ import { ClientModule } from './client/client.module';
     AccountModule,
     PropertyModule,
     ClientModule,
+    RequestModule,
     PrismaModule,
   ],
 })

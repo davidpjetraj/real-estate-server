@@ -215,6 +215,96 @@ type ClientModelRelayEdge {
   node: ClientModel!
 }
 
+"""Client Model"""
+type SimpleClientModel {
+  id: ID!
+  first_name: String!
+  last_name: String!
+  name: String!
+  email: String!
+  phone: String
+  birthday: DateTime
+  status: ClientStatus!
+  state: String
+  city: String
+  address: String
+  deleted: Boolean!
+  created_at: DateTime!
+}
+
+"""Request Model"""
+type RequestModel {
+  id: ID!
+  short_id: Int!
+  author_id: String
+  author: TeamModel
+  client: SimpleClientModel
+  assistant: TeamModel
+  clientType: String
+  agents: [TeamModel!]
+  type: String
+  category: [String!]
+  state: String
+  source: String
+  paymentMethod: String
+  city: String
+  assignee_id: String
+  assignee: TeamModel
+  street: String
+  requestOfAgent: [TeamModel!]
+  requestOf: String
+  surfaceMin: Int
+  surfaceMax: Int
+  surfaceM2: Float
+  fullName: String
+  status: Int!
+  buildingStatus: String!
+  floorMin: Int
+  floorMax: Int
+  roomsMin: Int
+  roomsMax: Int
+  orientation: [String!]
+  furnishing: [String!]
+  heatingSystem: [String!]
+  others: [String!]
+  otherDetails: String
+  destination: String
+  possessionSheet: Boolean
+  phone: String
+  message: String
+  createdFrom: RequestCreatedFrom
+  deleted: Boolean!
+  buildingPermits: Boolean
+  documents: String
+  infrastructure: [String!]
+  budget: Int!
+  budgetFull: Float!
+  budgetType: BudgetType!
+  matchingProperties: Int
+  sortNumber: Int
+  requestForProperties: [SimplePropertyModel!]
+  paid: Boolean
+  isPaid: Boolean
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+"""Enum for Request Creation Source"""
+enum RequestCreatedFrom {
+  favorites
+  contact
+  form
+  forProperties
+}
+
+"""Enum for Budget Type"""
+enum BudgetType {
+  m2
+  acre
+  area
+  full
+}
+
 type Query {
   account: AccountModel!
   getTeamById(input: GetTeamByIDInput!): TeamModel!
@@ -313,6 +403,7 @@ type Mutation {
   updateClient(input: UpdateClientInput!): ClientModel!
   removeClient(input: RemoveRestoreClientInput!): Boolean!
   restoreClient(input: RemoveRestoreClientInput!): Boolean!
+  createRequest(input: CreateRequestInput!): RequestModel!
 }
 
 input RegisterInput {
@@ -454,4 +545,8 @@ input UpdateClientInput {
 """Remove & Restore Client Input"""
 input RemoveRestoreClientInput {
   id: String!
+}
+
+input CreateRequestInput {
+  title: String!
 }

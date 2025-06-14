@@ -138,7 +138,7 @@ export class ClientService {
   }
 
   async findOne(input: GetClientInput): Promise<ClientModel> {
-    const property = await this.prisma.property.findUnique({
+    const client = await this.prisma.client.findUnique({
       where: {
         id: input.id,
         deleted: false,
@@ -146,7 +146,7 @@ export class ClientService {
       select: clientSelect,
     });
 
-    return property;
+    return client;
   }
 
   async removeClient(input: RemoveRestoreClientInput) {
