@@ -1,12 +1,6 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
 import { RequestBuyType, RequestCreatedFrom } from '@prisma/client';
-import {
-  IsEnum,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 @InputType()
 export class RequestInput {

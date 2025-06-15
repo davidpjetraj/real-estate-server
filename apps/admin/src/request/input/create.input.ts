@@ -1,11 +1,11 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 @InputType()
 export class CreateRequestInput {
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @IsString()
-  @IsNotEmpty()
-  title: string;
+  @IsOptional()
+  author_id?: string;
 }
 

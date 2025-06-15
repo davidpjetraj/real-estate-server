@@ -6,7 +6,7 @@ import {
   ObjectType,
   registerEnumType,
 } from '@nestjs/graphql';
-import { BudgetType, RequestCreatedFrom } from '@prisma/client';
+import { BudgetType, RequestBuyType, RequestCreatedFrom } from '@prisma/client';
 import { TeamModel } from '../../team/model';
 import { SimpleClientModel } from '../../client/model';
 import { SimplePropertyModel } from '../../property/model';
@@ -21,6 +21,10 @@ registerEnumType(BudgetType, {
   description: 'Enum for Budget Type',
 });
 
+registerEnumType(RequestBuyType, {
+  name: 'RequestBuyType',
+  description: 'Request Buy Type',
+});
 @ObjectType({
   description: 'Request Model',
 })
@@ -49,8 +53,8 @@ export class RequestModel {
   @Field(() => [TeamModel], { nullable: true })
   agents: TeamModel[];
 
-  @Field(() => String, { nullable: true })
-  type: string;
+  @Field(() => RequestBuyType, { nullable: true })
+  type: RequestBuyType;
 
   @Field(() => [String], { nullable: true })
   category: string[];

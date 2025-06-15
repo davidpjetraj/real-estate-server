@@ -242,7 +242,7 @@ type RequestModel {
   assistant: TeamModel
   clientType: String
   agents: [TeamModel!]
-  type: String
+  type: RequestBuyType
   category: [String!]
   state: String
   source: String
@@ -289,6 +289,12 @@ type RequestModel {
   updated_at: DateTime!
 }
 
+"""Request Buy Type"""
+enum RequestBuyType {
+  toBuy
+  toRent
+}
+
 """Enum for Request Creation Source"""
 enum RequestCreatedFrom {
   favorites
@@ -305,6 +311,17 @@ enum BudgetType {
   full
 }
 
+"""Request List Model"""
+type RequestListModel {
+  edges: [RequestModelRelayEdge!]!
+  pageInfo: RelayPageInfo!
+}
+
+type RequestModelRelayEdge {
+  cursor: String!
+  node: RequestModel!
+}
+
 type Query {
   account: AccountModel!
   getTeamById(input: GetTeamByIDInput!): TeamModel!
@@ -313,6 +330,8 @@ type Query {
   getProperty(input: GetPropertyInput!): PropertyModel!
   clients(input: GetAllClientsInput!): ClientListModel!
   getClient(input: GetClientInput!): ClientModel!
+  findAllRequests(input: GetAllRequestsInput!): RequestListModel!
+  findOneRequest(input: GetByIdInput!): RequestModel!
 }
 
 input GetTeamByIDInput {
@@ -384,6 +403,31 @@ input GetClientInput {
   id: String!
 }
 
+input GetAllRequestsInput {
+  """Cursor"""
+  cursor: String
+
+  """Limit of data to return max 50"""
+  limit: Int = 20
+  sort: [SortType!]
+  filters: [FiltersInput!]
+  agents: String
+  client: String
+  assistant: String
+  state: String
+  city: String
+  street: String
+  builder: String
+  complex: String
+  status: String
+  search: String
+  assignee: String
+}
+
+input GetByIdInput {
+  id: String!
+}
+
 type Mutation {
   register(input: RegisterInput!): AuthModel!
   login(input: LoginInput!): String!
@@ -404,6 +448,7 @@ type Mutation {
   removeClient(input: RemoveRestoreClientInput!): Boolean!
   restoreClient(input: RemoveRestoreClientInput!): Boolean!
   createRequest(input: CreateRequestInput!): RequestModel!
+  updateRequest(input: RequestInput!): RequestModel!
 }
 
 input RegisterInput {
@@ -548,5 +593,49 @@ input RemoveRestoreClientInput {
 }
 
 input CreateRequestInput {
-  title: String!
+  author_id: String
+}
+
+input RequestInput {
+  id: String!
+  client: String
+  agents: [String!]
+  requestOfAgent: [String!]
+  assistant: String
+  budgetType: String
+  requestOf: String
+  source: String
+  paymentMethod: String
+  clientType: String
+  type: RequestBuyType
+  category: [String!]
+  city: [String!]
+  street: [String!]
+  state: String
+  assignee: String
+  buildingConstructor: [String!]
+  builder: [String!]
+  surfaceMin: Int
+  surfaceMax: Int
+  floorMin: Int
+  floorMax: Int
+  roomsMin: Int
+  roomsMax: Int
+  orientation: [String!]
+  furnishing: [String!]
+  heatingSystem: [String!]
+  others: [String!]
+  otherDetails: String
+  destination: String
+  possessionSheet: Boolean
+  buildingPermits: Boolean
+  buildingStatus: [String!]
+  documents: String
+  infrastructure: [String!]
+  parcelNumber: String
+  budget: Int
+  createdFrom: RequestCreatedFrom
+  requestForProperties: [String!]
+  phone: String
+  message: String
 }

@@ -6,8 +6,5 @@ export class UpdatePaidInput {
   @Field(() => String)
   @IsNotEmpty()
   id: string;
-
-  @Field(() => Boolean)
-  @IsNotEmpty()
-  paid: boolean;
 }
+
