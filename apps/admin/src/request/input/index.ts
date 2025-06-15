@@ -1,11 +1,7 @@
 export * from './request.input';
 export * from './get.input';
-export * from './requestForProperties.input';
 export * from './create.input';
 export * from './update-assignee.input';
-export * from './update-paid.input';
-export * from './update-multiple-requests-agents.input';
-export * from './update-multiple-requests-assignees.input';
-export * from './get-with-short-id.input';
 export * from './get-by-id.input';
 export * from './remove.input';
+

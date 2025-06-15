@@ -5,15 +5,12 @@ import { simpleClientSelect } from '../client/select';
 export const requestSelect: Prisma.RequestSelect = {
   id: true,
   short_id: true,
-  author_id: true,
   author: {
     select: teamSelect,
   },
-  client_id: true,
   client: {
     select: simpleClientSelect,
   },
-  assistant_id: true,
   assistant: {
     select: teamSelect,
   },
@@ -28,7 +25,6 @@ export const requestSelect: Prisma.RequestSelect = {
   source: true,
   paymentMethod: true,
   city: true,
-  assignee_id: true,
   assignee: {
     select: teamSelect,
   },

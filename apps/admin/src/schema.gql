@@ -77,7 +77,7 @@ type TeamModel {
   phone: String
 
   """The birthday of the account"""
-  birthday: DateTime!
+  birthday: DateTime
 
   """The status of the account"""
   status: AdminStatus!
@@ -236,8 +236,8 @@ type SimpleClientModel {
 type RequestModel {
   id: ID!
   short_id: Int!
-  author_id: String
-  author: TeamModel
+  fullName: String
+  author: TeamModel!
   client: SimpleClientModel
   assistant: TeamModel
   clientType: String
@@ -256,7 +256,6 @@ type RequestModel {
   surfaceMin: Int
   surfaceMax: Int
   surfaceM2: Float
-  fullName: String
   status: Int!
   buildingStatus: String!
   floorMin: Int
@@ -449,6 +448,8 @@ type Mutation {
   restoreClient(input: RemoveRestoreClientInput!): Boolean!
   createRequest(input: CreateRequestInput!): RequestModel!
   updateRequest(input: RequestInput!): RequestModel!
+  removeRequest(input: RemoveInput!): Boolean!
+  updateRequestAssignee(input: UpdateRequestAssigneeInput!): RequestModel!
 }
 
 input RegisterInput {
@@ -638,4 +639,13 @@ input RequestInput {
   requestForProperties: [String!]
   phone: String
   message: String
+}
+
+input RemoveInput {
+  id: String!
+}
+
+input UpdateRequestAssigneeInput {
+  id: String!
+  assignee_id: String
 }

@@ -1,7 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'libs/common/src/prisma';
 import { requestSelect } from './select';
-import { CreateRequestInput, GetAllRequestsInput, RequestInput } from './input';
+import {
+  CreateRequestInput,
+  GetAllRequestsInput,
+  RequestInput,
+  UpdateRequestAssigneeInput,
+} from './input';
 import { GraphQLError } from 'graphql';
 import { createEdge } from '../common/pagination';
 import { Prisma } from '@prisma/client';
@@ -189,6 +194,54 @@ export class RequestService {
     });
 
     return request;
+  }
+
+  async remove(id: string, author: string): Promise<boolean> {
+    try {
+      const request = await this.prisma.request.update({
+        where: {
+          id: id,
+          deleted: {
+            not: true,
+          },
+        },
+        data: {
+          deleted: true,
+        },
+      });
+
+      if (!request) {
+        throw new GraphQLError('Kërkesa nuk u gjet');
+      }
+
+      return true;
+    } catch (error) {
+      console.log('error:', error);
+      throw new GraphQLError('Kërkesa nuk u gjet');
+    }
+  }
+
+  async updateRequestAssignee(input: UpdateRequestAssigneeInput) {
+    try {
+      const foundRequest = await this.prisma.request.findUnique({
+        where: { id: input.id },
+      });
+
+      const request = await this.prisma.request.update({
+        where: {
+          id: foundRequest.id,
+        },
+        data: {
+          assignee_id: input.assignee_id,
+        },
+        select: requestSelect,
+      });
+
+      return request;
+    } catch (error) {
+      console.log('error:', error);
+      throw new GraphQLError('Kërkesa nuk u gjet');
+    }
   }
 }
 

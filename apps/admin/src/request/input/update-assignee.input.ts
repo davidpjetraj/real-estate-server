@@ -3,12 +3,13 @@ import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 @InputType()
 export class UpdateRequestAssigneeInput {
-  @Field(() => String, { nullable: true })
+  @Field(() => String)
   @IsNotEmpty()
   @IsString()
-  request_id: string;
+  id: string;
 
   @Field(() => String, { nullable: true })
   @IsOptional()
-  user: string;
+  assignee_id: string;
 }
+

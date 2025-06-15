@@ -36,9 +36,9 @@ export class RequestModel {
   short_id: number;
 
   @Field(() => String, { nullable: true })
-  author_id: string;
+  fullName: string;
 
-  @Field(() => TeamModel, { nullable: true })
+  @Field(() => TeamModel)
   author: TeamModel;
 
   @Field(() => SimpleClientModel, { nullable: true })
@@ -94,9 +94,6 @@ export class RequestModel {
 
   @Field(() => Float, { nullable: true })
   surfaceM2: number;
-
-  @Field(() => String, { nullable: true })
-  fullName: string;
 
   @Field(() => Int)
   status: number;

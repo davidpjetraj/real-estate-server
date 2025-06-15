@@ -6,7 +6,9 @@ import {
   CreateRequestInput,
   GetAllRequestsInput,
   GetByIdInput,
+  RemoveInput,
   RequestInput,
+  UpdateRequestAssigneeInput,
 } from './input';
 import { SessionDecorator } from '../decorators/session.decorator';
 
@@ -41,12 +43,30 @@ export class RequestResolver {
     return await this.requestService.findOne(input.id, admin_id);
   }
 
+  @Auth()
   @Mutation(() => RequestModel)
   async updateRequest(
     @Args('input') input: RequestInput,
     @SessionDecorator('admin_id') admin_id: string,
   ): Promise<RequestModel> {
     return await this.requestService.update(input, admin_id);
+  }
+
+  @Auth()
+  @Mutation(() => Boolean)
+  async removeRequest(
+    @Args('input') input: RemoveInput,
+    @SessionDecorator('admin_id') admin_id: string,
+  ): Promise<boolean> {
+    return await this.requestService.remove(input.id, admin_id);
+  }
+
+  @Auth()
+  @Mutation(() => RequestModel)
+  async updateRequestAssignee(
+    @Args('input') input: UpdateRequestAssigneeInput,
+  ): Promise<RequestModel> {
+    return await this.requestService.updateRequestAssignee(input);
   }
 }
 

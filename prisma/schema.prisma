@@ -113,6 +113,7 @@ model Property {
 model Request {
   id                   String             @id @default(uuid())
   short_id             Int                @default(autoincrement())
+  fullName             String?
   author_id            String?
   author               Admin?             @relation("requestsAuthor", fields: [author_id], references: [id])
   client_id            String?
@@ -134,13 +135,12 @@ model Request {
   builder              Builder[]          @relation("builderRequests")
   buildingConstructor  Complex[]          @relation("complexRequests")
   requestOfAgent       Admin[]            @relation("requestOfAgent")
-  requestOf            String?            @default("pro-real-estate")
+  requestOf            String?            @default("real-estate")
   surfaceMin           Int?               @default(0)
   surfaceMax           Int?
   surfaceM2            Float?
   surfaceM2Min         Int?
   surfaceM2Max         Int?
-  fullName             String?
   status               Int                @default(1) // status: 1processing,  2 todo,  3 done
   buildingStatus       String             @default("")
   floorMin             Int?

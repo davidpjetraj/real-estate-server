@@ -1,5 +1,5 @@
-import { Field, ObjectType, registerEnumType } from "@nestjs/graphql";
-import { AdminStatus } from "@prisma/client";
+import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { AdminStatus } from '@prisma/client';
 
 registerEnumType(AdminStatus, {
   name: 'AdminStatus',
@@ -29,7 +29,10 @@ export class TeamModel {
   })
   phone?: string;
 
-  @Field(() => Date, { description: 'The birthday of the account' })
+  @Field(() => Date, {
+    description: 'The birthday of the account',
+    nullable: true,
+  })
   birthday?: Date;
 
   @Field(() => AdminStatus, { description: 'The status of the account' })
