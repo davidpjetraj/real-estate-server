@@ -25,6 +25,8 @@ model Admin {
   agent_on_requests     Request[]      @relation("request_agents")
   requestAssignee       Request[]      @relation("requestAssignee")
   requests_author       Request[]      @relation("requestsAuthor")
+  builders Builder[]
+  complexes Complex[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -190,6 +192,8 @@ model Builder {
   complexes  Complex[]
   properties Property[]
   requests   Request[]  @relation("builderRequests")
+  author_id String
+  author Admin @relation(fields: [author_id], references: [id])
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
 }
@@ -205,6 +209,9 @@ model Complex {
   state      String?
   properties Property[]
   requests   Request[]  @relation("complexRequests")
+  author_id String
+    author Admin @relation(fields: [author_id], references: [id])
+
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
 

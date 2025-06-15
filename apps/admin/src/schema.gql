@@ -321,6 +321,46 @@ type RequestModelRelayEdge {
   node: RequestModel!
 }
 
+"""Simple Request Model"""
+type SimpleRequestModel {
+  id: ID!
+  short_id: Int!
+  fullName: String
+  status: Int
+  deleted: Boolean!
+  created_at: DateTime!
+}
+
+"""Simple Complex Model"""
+type SimpleComplexModel {
+  id: ID!
+  name: String!
+  deleted: Boolean!
+  created_at: DateTime!
+}
+
+"""Builder Model"""
+type BuilderModel {
+  id: ID!
+  name: String!
+  state: String
+  city: String
+  complexes: [SimpleComplexModel!]
+  properties: [SimplePropertyModel!]
+  requests: [SimpleRequestModel!]
+  author: TeamModel!
+  deleted: Boolean!
+  created_at: DateTime!
+}
+
+"""Simple Builder Model"""
+type SimpleBuilderModel {
+  id: ID!
+  name: String!
+  deleted: Boolean!
+  created_at: DateTime!
+}
+
 type Query {
   account: AccountModel!
   getTeamById(input: GetTeamByIDInput!): TeamModel!
@@ -331,6 +371,9 @@ type Query {
   getClient(input: GetClientInput!): ClientModel!
   findAllRequests(input: GetAllRequestsInput!): RequestListModel!
   findOneRequest(input: GetByIdInput!): RequestModel!
+  builders(input: GetAllBuildersInput!): [BuilderModel!]!
+  getAllBuildersList(input: GetAllBuildersInput!): [BuilderModel!]!
+  getBuilder(input: GetBuilderByIdInput!): BuilderModel!
 }
 
 input GetTeamByIDInput {
@@ -427,6 +470,21 @@ input GetByIdInput {
   id: String!
 }
 
+input GetAllBuildersInput {
+  """Cursor"""
+  cursor: String
+
+  """Limit of data to return max 50"""
+  limit: Int = 20
+  sort: [SortType!]
+  filters: [FiltersInput!]
+  search: String
+}
+
+input GetBuilderByIdInput {
+  id: String!
+}
+
 type Mutation {
   register(input: RegisterInput!): AuthModel!
   login(input: LoginInput!): String!
@@ -450,6 +508,9 @@ type Mutation {
   updateRequest(input: RequestInput!): RequestModel!
   removeRequest(input: RemoveInput!): Boolean!
   updateRequestAssignee(input: UpdateRequestAssigneeInput!): RequestModel!
+  createBuilder(input: CreateBuilderInput!): BuilderModel!
+  updateBuilder(input: UpdateBuilderInput!): BuilderModel!
+  deleteBuilder(input: GetBuilderByIdInput!): Boolean!
 }
 
 input RegisterInput {
@@ -648,4 +709,17 @@ input RemoveInput {
 input UpdateRequestAssigneeInput {
   id: String!
   assignee_id: String
+}
+
+input CreateBuilderInput {
+  name: String!
+  city_id: String!
+  state_id: String!
+}
+
+input UpdateBuilderInput {
+  id: String!
+  name: String
+  city_id: String
+  state_id: String
 }
