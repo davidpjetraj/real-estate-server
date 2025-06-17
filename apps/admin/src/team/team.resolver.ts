@@ -1,14 +1,18 @@
-import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
-import { TeamService } from "./team.service";
-import { ChangeTeamStatusInput, CreateTeamInput, GetTeamByIDInput } from "./input";
-import { TeamModel } from "./model";
-import { TeamListModel } from "./model/team-list.model";
-import { GetAllTeamsInput } from "./input/get-all.input";
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { TeamService } from './team.service';
+import {
+  ChangeTeamStatusInput,
+  CreateTeamInput,
+  GetTeamByIDInput,
+} from './input';
+import { TeamModel } from './model';
+import { TeamListModel } from './model/team-list.model';
+import { GetAllTeamsInput } from './input/get-all.input';
 import { UpdateTeamInput } from './input/update-team.input';
 
 @Resolver()
 export class TeamResolver {
-  constructor(private readonly teamService: TeamService) { }
+  constructor(private readonly teamService: TeamService) {}
 
   @Mutation(() => TeamModel)
   async createTeam(@Args('input') input: CreateTeamInput): Promise<TeamModel> {
@@ -21,22 +25,21 @@ export class TeamResolver {
   }
 
   @Query(() => TeamModel)
-  async getTeamById(
-    @Args('input') input: GetTeamByIDInput
-  ): Promise<TeamModel> {
-    return await this.getTeamById(input)
+  async getTeam(@Args('input') input: GetTeamByIDInput): Promise<TeamModel> {
+    return await this.teamService.findOne(input.id);
   }
 
-
   @Query(() => TeamListModel)
-  async getTeams(@Args('input') input: GetAllTeamsInput): Promise<TeamListModel> {
+  async getTeams(
+    @Args('input') input: GetAllTeamsInput,
+  ): Promise<TeamListModel> {
     return this.teamService.findAll(input);
   }
 
   @Mutation(() => Boolean)
-  async changeTeamStatus(@Args('input') input: ChangeTeamStatusInput): Promise<boolean> {
-    return await this.teamService.changeTeamStatus(input)
+  async changeTeamStatus(
+    @Args('input') input: ChangeTeamStatusInput,
+  ): Promise<boolean> {
+    return await this.teamService.changeTeamStatus(input);
   }
-
 }
-

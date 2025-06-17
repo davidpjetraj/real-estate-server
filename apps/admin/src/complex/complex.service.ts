@@ -102,7 +102,7 @@ export class ComplexService {
     });
   }
 
-  async getById(id: string) {
+  async findOne(id: string) {
     const complex = await this.prisma.complex.findUnique({
       where: { id: id },
       select: complexSelect,

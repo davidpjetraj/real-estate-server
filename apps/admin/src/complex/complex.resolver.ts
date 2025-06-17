@@ -41,10 +41,10 @@ export class ComplexResolver {
 
   @Auth()
   @Query(() => ComplexModel)
-  async getComplexById(
+  async getComplex(
     @Args('input') input: GetComplexInput,
   ): Promise<ComplexModel> {
-    return await this.complexService.getById(input.id);
+    return await this.complexService.findOne(input.id);
   }
 
   @Auth()

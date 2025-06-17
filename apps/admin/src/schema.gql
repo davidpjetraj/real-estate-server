@@ -331,6 +331,18 @@ type SimpleRequestModel {
   created_at: DateTime!
 }
 
+"""Complex Model"""
+type ComplexModel {
+  id: ID!
+  name: String!
+  deleted: Boolean!
+  builder: SimpleBuilderModel
+  city: String
+  state: String
+  author: TeamModel!
+  created_at: DateTime!
+}
+
 """Simple Complex Model"""
 type SimpleComplexModel {
   id: ID!
@@ -363,17 +375,20 @@ type SimpleBuilderModel {
 
 type Query {
   account: AccountModel!
-  getTeamById(input: GetTeamByIDInput!): TeamModel!
+  getTeam(input: GetTeamByIDInput!): TeamModel!
   getTeams(input: GetAllTeamsInput!): TeamListModel!
   properties(input: GetAllPropertiesInput!): PropertyListModel!
   getProperty(input: GetPropertyInput!): PropertyModel!
   clients(input: GetAllClientsInput!): ClientListModel!
   getClient(input: GetClientInput!): ClientModel!
-  findAllRequests(input: GetAllRequestsInput!): RequestListModel!
-  findOneRequest(input: GetByIdInput!): RequestModel!
+  getRequests(input: GetAllRequestsInput!): RequestListModel!
+  getRequest(input: GetByIdInput!): RequestModel!
   builders(input: GetAllBuildersInput!): [BuilderModel!]!
   getAllBuildersList(input: GetAllBuildersInput!): [BuilderModel!]!
   getBuilder(input: GetBuilderByIdInput!): BuilderModel!
+  getAllComplex(input: GetAllComplexInput!): [ComplexModel!]!
+  getAllComplexesList(input: GetAllComplexInput!): [ComplexModel!]!
+  getComplex(input: GetComplexInput!): ComplexModel!
 }
 
 input GetTeamByIDInput {
@@ -485,6 +500,14 @@ input GetBuilderByIdInput {
   id: String!
 }
 
+input GetAllComplexInput {
+  search: String
+}
+
+input GetComplexInput {
+  id: String!
+}
+
 type Mutation {
   register(input: RegisterInput!): AuthModel!
   login(input: LoginInput!): String!
@@ -511,6 +534,9 @@ type Mutation {
   createBuilder(input: CreateBuilderInput!): BuilderModel!
   updateBuilder(input: UpdateBuilderInput!): BuilderModel!
   deleteBuilder(input: GetBuilderByIdInput!): Boolean!
+  createComplex(input: CreateComplexInput!): ComplexModel!
+  updateComplex(input: UpdateComplexInput!): ComplexModel!
+  deleteComplex(input: GetComplexInput!): Boolean!
 }
 
 input RegisterInput {
@@ -722,4 +748,21 @@ input UpdateBuilderInput {
   name: String
   city_id: String
   state_id: String
+}
+
+input CreateComplexInput {
+  name: String!
+  builder_id: String!
+  city_id: String!
+  state_id: String!
+  street_id: String!
+}
+
+input UpdateComplexInput {
+  name: String
+  builder_id: String
+  city_id: String
+  state_id: String
+  street_id: String
+  id: String!
 }
