@@ -18,15 +18,15 @@ model Admin {
   birthday              DateTime?
   status                AdminStatus    @default(active)
   deleted               Boolean        @default(false)
-  sessions              AdminSession[]
   properties            Property[]
-  agentRequests         Request[]      @relation("requestOfAgent")
+  agent_requests        Request[]      @relation("request_of_agent")
   assistant_on_requests Request[]      @relation("request_assistant")
   agent_on_requests     Request[]      @relation("request_agents")
-  requestAssignee       Request[]      @relation("requestAssignee")
-  requests_author       Request[]      @relation("requestsAuthor")
-  builders Builder[]
-  complexes Complex[]
+  requests_assignee     Request[]      @relation("requests_assignee")
+  requests              Request[]      @relation("requests_author")
+  builders              Builder[]
+  complexes             Complex[]
+  sessions              AdminSession[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -73,108 +73,94 @@ model ClientSession {
 }
 
 model Property {
-  id                String           @id @default(uuid())
-  short_id          Int              @default(autoincrement())
-  title             String
-  description       String
-  category          PropertyCategory
-  state             String
-  city              String
-  address           String
-  surface           Float?
-  floor             Int?
-  numberOfFloors    Int?
-  buildingYear      Int?
-  numberOfRooms     Int?
-  numberOfBathRooms Int?
-  numberOfBedRooms  Int?
-  numberOfBalconies Int?
-  sellPrice         Float?
-  rentPrice         Float?
-  status            PropertyStatus   @default(active)
-  forSale           Boolean
-  forRent           Boolean
-  published         Boolean          @default(false)
-  published_at      DateTime?
-  agent_id          String
-  agent             Admin            @relation(fields: [agent_id], references: [id])
-  client_id         String?
-  client            Client?          @relation(fields: [client_id], references: [id])
-  request           Request?         @relation(fields: [request_id], references: [id])
-  request_id        String?
-  builder           Builder?         @relation(fields: [builder_id], references: [id])
-  builder_id        String?
-  complex           Complex?         @relation(fields: [complex_id], references: [id])
-  complex_id        String?
-  propertyRequests  Request[]        @relation("requestForProperties")
-  deleted           Boolean          @default(false)
-  created_at        DateTime         @default(now())
-  updated_at        DateTime         @updatedAt
+  id                     String           @id @default(uuid())
+  short_id               Int              @default(autoincrement())
+  title                  String
+  description            String
+  category               PropertyCategory
+  state                  String
+  city                   String
+  address                String
+  surface                Float?
+  floor                  Int?
+  number_of_floors       Int?
+  building_year          Int?
+  number_of_rooms        Int?
+  number_of_bathrooms    Int?
+  number_of_bedrooms     Int?
+  number_of_balconies    Int?
+  sell_price             Float?
+  rent_price             Float?
+  status                 PropertyStatus   @default(active)
+  for_sale               Boolean          @default(false)
+  for_rent               Boolean          @default(false)
+  published              Boolean          @default(false)
+  published_at           DateTime?
+  agent_id               String
+  agent                  Admin            @relation(fields: [agent_id], references: [id])
+  client_id              String?
+  client                 Client?          @relation(fields: [client_id], references: [id])
+  request_id             String?
+  request                Request?         @relation(fields: [request_id], references: [id])
+  builder_id             String?
+  builder                Builder?         @relation(fields: [builder_id], references: [id])
+  complex_id             String?
+  complex                Complex?         @relation(fields: [complex_id], references: [id])
+  request_for_properties Request[]        @relation("request_for_properties")
+  deleted                Boolean          @default(false)
+  created_at             DateTime         @default(now())
+  updated_at             DateTime         @updatedAt
 }
 
 model Request {
-  id                   String             @id @default(uuid())
-  short_id             Int                @default(autoincrement())
-  fullName             String?
-  author_id            String?
-  author               Admin?             @relation("requestsAuthor", fields: [author_id], references: [id])
-  client_id            String?
-  client               Client?            @relation(fields: [client_id], references: [id])
-  assistant            Admin?             @relation("request_assistant", fields: [assistant_id], references: [id])
-  assistant_id         String?
-  clientType           String?
-  agents               Admin[]            @relation("request_agents")
-  type                 RequestBuyType     @default(toBuy)
-  category             String[]           @default([]) // home apartment office unit land object warehouse
-  state_id             String?
-  source               String?
-  paymentMethod        String?
-  state                String?
-  city                 String?
-  assignee_id          String?
-  assignee             Admin?             @relation("requestAssignee", fields: [assignee_id], references: [id])
-  street               String?
-  builder              Builder[]          @relation("builderRequests")
-  buildingConstructor  Complex[]          @relation("complexRequests")
-  requestOfAgent       Admin[]            @relation("requestOfAgent")
-  requestOf            String?            @default("real-estate")
-  surfaceMin           Int?               @default(0)
-  surfaceMax           Int?
-  surfaceM2            Float?
-  surfaceM2Min         Int?
-  surfaceM2Max         Int?
-  status               Int                @default(1) // status: 1processing,  2 todo,  3 done
-  buildingStatus       String             @default("")
-  floorMin             Int?
-  floorMax             Int?
-  roomsMin             Int?
-  roomsMax             Int?
-  orientation          String[]           @default([])
-  furnishing           String[]           @default([])
-  heatingSystem        String[]           @default([])
-  others               String[]           @default([])
-  otherDetails         String?
-  destination          String?
-  possessionSheet      Boolean?
-  phone                String?
-  message              String?
-  createdFrom          RequestCreatedFrom @default(form)
-  deleted              Boolean            @default(false)
-  buildingPermits      Boolean?
-  documents            String?
-  infrastructure       String[]           @default([])
-  budget               Int                @default(0)
-  budgetFull           Float              @default(0)
-  budgetType           BudgetType         @default(full)
-  matchingProperties   Int?               @default(0)
-  sortNumber           Int?               @default(0)
-  requestForProperties Property[]         @relation("requestForProperties")
-  lastMatchCreated     DateTime?
-  paid                 Boolean?           @default(false)
-  isPaid               Boolean?           @default(false)
-  properties           Property[]
-  created_at           DateTime           @default(now())
-  updated_at           DateTime           @updatedAt
+  id                     String         @id @default(uuid())
+  short_id               Int            @default(autoincrement())
+  full_name              String?
+  client_type            String?
+  type                   RequestBuyType @default(toBuy)
+  category               String[]       @default([]) // home, apartment, office, unit, land, object, warehouse
+  state_id               String?
+  source                 String?
+  payment_method         String?
+  state                  String?
+  city                   String?
+  street                 String?
+  surface_min            Int            @default(0)
+  surface_max            Int            @default(0)
+  surface_m2             Float          @default(0)
+  status                 Int            @default(1) // status: 1 processing, 2 todo, 3 done
+  floor_min              Int            @default(0)
+  floor_max              Int            @default(0)
+  rooms_min              Int            @default(0)
+  rooms_max              Int            @default(0)
+  phone                  String?
+  message                String?
+  documents              String[]
+  request_of             String?        @default("real-estate")
+  budget                 Int            @default(0)
+  budget_full            Float          @default(0)
+  budget_type            BudgetType     @default(full)
+  paid                   Boolean?       @default(false)
+  isPaid                 Boolean?       @default(false)
+  heating_system         String[]       @default([])
+  author_id              String?
+  author                 Admin?         @relation("requests_author", fields: [author_id], references: [id])
+  assistant_id           String?
+  assistant              Admin?         @relation("request_assistant", fields: [assistant_id], references: [id])
+  client_id              String?
+  client                 Client?        @relation(fields: [client_id], references: [id])
+  assignee_id            String?
+  assignee               Admin?         @relation("requests_assignee", fields: [assignee_id], references: [id])
+  agents                 Admin[]        @relation("request_agents")
+  building_constructor   Complex[]      @relation("complex_requests")
+  request_of_agent       Admin[]        @relation("request_of_agent")
+  request_for_properties Property[]     @relation("request_for_properties")
+  properties             Property[]
+  builder                Builder[]
+
+  deleted    Boolean  @default(false)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@index([state_id])
   @@index([client_id])
@@ -189,31 +175,32 @@ model Builder {
   deleted    Boolean    @default(false)
   city       String?
   state      String?
+  author_id  String
+  author     Admin      @relation(fields: [author_id], references: [id])
   complexes  Complex[]
   properties Property[]
-  requests   Request[]  @relation("builderRequests")
-  author_id String
-  author Admin @relation(fields: [author_id], references: [id])
-  created_at DateTime   @default(now())
-  updated_at DateTime   @updatedAt
+  requests   Request[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
 
 model Complex {
   id         String     @id @default(uuid())
   name       String
-  deleted    Boolean    @default(false)
-  builder_id String?
-  builder    Builder?   @relation(fields: [builder_id], references: [id])
   city       String?
   street     String?
   state      String?
+  author_id  String
+  author     Admin      @relation(fields: [author_id], references: [id])
+  builder_id String?
+  builder    Builder?   @relation(fields: [builder_id], references: [id])
+  requests   Request[]  @relation("complex_requests")
   properties Property[]
-  requests   Request[]  @relation("complexRequests")
-  author_id String
-    author Admin @relation(fields: [author_id], references: [id])
 
-  created_at DateTime   @default(now())
-  updated_at DateTime   @updatedAt
+  deleted    Boolean  @default(false)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@index([builder_id])
 }
@@ -251,11 +238,4 @@ enum BudgetType {
 enum RequestBuyType {
   toBuy
   toRent
-}
-
-enum RequestCreatedFrom {
-  favorites
-  contact
-  form
-  forProperties
 }

@@ -1,5 +1,5 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
-import { RequestBuyType, RequestCreatedFrom } from '@prisma/client';
+import { RequestBuyType } from '@prisma/client';
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 @InputType()
@@ -174,11 +174,6 @@ export class RequestInput {
   @IsOptional()
   @IsNumber()
   budget: number;
-
-  @Field(() => RequestCreatedFrom, { nullable: true })
-  @IsOptional()
-  @IsString()
-  createdFrom: RequestCreatedFrom;
 
   @Field(() => [String], { nullable: true })
   @IsOptional()

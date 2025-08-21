@@ -6,15 +6,10 @@ import {
   ObjectType,
   registerEnumType,
 } from '@nestjs/graphql';
-import { BudgetType, RequestBuyType, RequestCreatedFrom } from '@prisma/client';
+import { BudgetType, RequestBuyType } from '@prisma/client';
 import { TeamModel } from '../../team/model';
 import { SimpleClientModel } from '../../client/model';
 import { SimplePropertyModel } from '../../property/model';
-
-registerEnumType(RequestCreatedFrom, {
-  name: 'RequestCreatedFrom',
-  description: 'Enum for Request Creation Source',
-});
 
 registerEnumType(BudgetType, {
   name: 'BudgetType',
@@ -36,7 +31,7 @@ export class RequestModel {
   short_id: number;
 
   @Field(() => String, { nullable: true })
-  fullName: string;
+  full_name: string;
 
   @Field(() => TeamModel)
   author: TeamModel;
@@ -48,7 +43,7 @@ export class RequestModel {
   assistant: TeamModel;
 
   @Field(() => String, { nullable: true })
-  clientType: string;
+  client_type: string;
 
   @Field(() => [TeamModel], { nullable: true })
   agents: TeamModel[];
@@ -66,13 +61,10 @@ export class RequestModel {
   source: string;
 
   @Field(() => String, { nullable: true })
-  paymentMethod: string;
+  payment_method: string;
 
   @Field(() => String, { nullable: true })
   city: string;
-
-  @Field(() => String, { nullable: true })
-  assignee_id: string;
 
   @Field(() => TeamModel, { nullable: true })
   assignee: TeamModel;
@@ -81,58 +73,34 @@ export class RequestModel {
   street: string;
 
   @Field(() => [TeamModel], { nullable: true })
-  requestOfAgent: TeamModel[];
+  request_of_agent: TeamModel[];
 
   @Field(() => String, { nullable: true })
-  requestOf: string;
+  request_of: string;
 
   @Field(() => Int, { nullable: true })
-  surfaceMin: number;
+  surface_min: number;
 
   @Field(() => Int, { nullable: true })
-  surfaceMax: number;
+  surface_max: number;
 
   @Field(() => Float, { nullable: true })
-  surfaceM2: number;
+  surface_m2: number;
 
   @Field(() => Int)
   status: number;
 
-  @Field(() => String)
-  buildingStatus: string;
+  @Field(() => Int, { nullable: true })
+  floor_min: number;
 
   @Field(() => Int, { nullable: true })
-  floorMin: number;
+  floor_max: number;
 
   @Field(() => Int, { nullable: true })
-  floorMax: number;
+  rooms_min: number;
 
   @Field(() => Int, { nullable: true })
-  roomsMin: number;
-
-  @Field(() => Int, { nullable: true })
-  roomsMax: number;
-
-  @Field(() => [String], { nullable: true })
-  orientation: string[];
-
-  @Field(() => [String], { nullable: true })
-  furnishing: string[];
-
-  @Field(() => [String], { nullable: true })
-  heatingSystem: string[];
-
-  @Field(() => [String], { nullable: true })
-  others: string[];
-
-  @Field(() => String, { nullable: true })
-  otherDetails: string;
-
-  @Field(() => String, { nullable: true })
-  destination: string;
-
-  @Field(() => Boolean, { nullable: true })
-  possessionSheet: boolean;
+  rooms_max: number;
 
   @Field(() => String, { nullable: true })
   phone: string;
@@ -140,38 +108,23 @@ export class RequestModel {
   @Field(() => String, { nullable: true })
   message: string;
 
-  @Field(() => RequestCreatedFrom, { nullable: true })
-  createdFrom: RequestCreatedFrom;
-
   @Field(() => Boolean)
   deleted: boolean;
 
-  @Field(() => Boolean, { nullable: true })
-  buildingPermits: boolean;
-
-  @Field(() => String, { nullable: true })
-  documents: string;
-
   @Field(() => [String], { nullable: true })
-  infrastructure: string[];
+  documents: string[];
 
   @Field(() => Int)
   budget: number;
 
   @Field(() => Float)
-  budgetFull: number;
+  budget_full: number;
 
   @Field(() => BudgetType)
-  budgetType: BudgetType;
-
-  @Field(() => Int, { nullable: true })
-  matchingProperties: number;
-
-  @Field(() => Int, { nullable: true })
-  sortNumber: number;
+  budget_type: BudgetType;
 
   @Field(() => [SimplePropertyModel], { nullable: true })
-  requestForProperties: SimplePropertyModel[];
+  request_for_properties: SimplePropertyModel[];
 
   @Field(() => Boolean, { nullable: true })
   paid: boolean;

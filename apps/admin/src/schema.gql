@@ -154,16 +154,16 @@ type SimplePropertyModel {
   address: String!
   surface: Float
   floor: Int
-  numberOfFloors: Int
-  buildingYear: Int
-  numberOfRooms: Int
-  numberOfBathRooms: Int
-  numberOfBedRooms: Int
-  numberOfBalconies: Int
-  sellPrice: Float
-  rentPrice: Float
-  forSale: Boolean!
-  forRent: Boolean!
+  number_of_floors: Int
+  building_year: Int
+  number_of_rooms: Int
+  number_of_bathrooms: Int
+  number_of_bedrooms: Int
+  number_of_balconies: Int
+  sell_price: Float
+  rent_price: Float
+  for_sale: Boolean!
+  for_rent: Boolean!
   deleted: Boolean!
   created_at: DateTime!
 }
@@ -236,52 +236,38 @@ type SimpleClientModel {
 type RequestModel {
   id: ID!
   short_id: Int!
-  fullName: String
+  full_name: String
   author: TeamModel!
   client: SimpleClientModel
   assistant: TeamModel
-  clientType: String
+  client_type: String
   agents: [TeamModel!]
   type: RequestBuyType
   category: [String!]
   state: String
   source: String
-  paymentMethod: String
+  payment_method: String
   city: String
-  assignee_id: String
   assignee: TeamModel
   street: String
-  requestOfAgent: [TeamModel!]
-  requestOf: String
-  surfaceMin: Int
-  surfaceMax: Int
-  surfaceM2: Float
+  request_of_agent: [TeamModel!]
+  request_of: String
+  surface_min: Int
+  surface_max: Int
+  surface_m2: Float
   status: Int!
-  buildingStatus: String!
-  floorMin: Int
-  floorMax: Int
-  roomsMin: Int
-  roomsMax: Int
-  orientation: [String!]
-  furnishing: [String!]
-  heatingSystem: [String!]
-  others: [String!]
-  otherDetails: String
-  destination: String
-  possessionSheet: Boolean
+  floor_min: Int
+  floor_max: Int
+  rooms_min: Int
+  rooms_max: Int
   phone: String
   message: String
-  createdFrom: RequestCreatedFrom
   deleted: Boolean!
-  buildingPermits: Boolean
-  documents: String
-  infrastructure: [String!]
+  documents: [String!]
   budget: Int!
-  budgetFull: Float!
-  budgetType: BudgetType!
-  matchingProperties: Int
-  sortNumber: Int
-  requestForProperties: [SimplePropertyModel!]
+  budget_full: Float!
+  budget_type: BudgetType!
+  request_for_properties: [SimplePropertyModel!]
   paid: Boolean
   isPaid: Boolean
   created_at: DateTime!
@@ -292,14 +278,6 @@ type RequestModel {
 enum RequestBuyType {
   toBuy
   toRent
-}
-
-"""Enum for Request Creation Source"""
-enum RequestCreatedFrom {
-  favorites
-  contact
-  form
-  forProperties
 }
 
 """Enum for Budget Type"""
@@ -381,8 +359,8 @@ type Query {
   getProperty(input: GetPropertyInput!): PropertyModel!
   clients(input: GetAllClientsInput!): ClientListModel!
   getClient(input: GetClientInput!): ClientModel!
-  getRequests(input: GetAllRequestsInput!): RequestListModel!
-  getRequest(input: GetByIdInput!): RequestModel!
+  requests(input: GetAllRequestsInput!): RequestListModel!
+  requestDetails(input: GetByIdInput!): RequestModel!
   builders(input: GetAllBuildersInput!): [BuilderModel!]!
   getAllBuildersList(input: GetAllBuildersInput!): [BuilderModel!]!
   getBuilder(input: GetBuilderByIdInput!): BuilderModel!
@@ -722,7 +700,6 @@ input RequestInput {
   infrastructure: [String!]
   parcelNumber: String
   budget: Int
-  createdFrom: RequestCreatedFrom
   requestForProperties: [String!]
   phone: String
   message: String

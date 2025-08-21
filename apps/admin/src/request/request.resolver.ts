@@ -27,7 +27,7 @@ export class RequestResolver {
 
   @Auth()
   @Query(() => RequestListModel)
-  async getRequests(
+  async requests(
     @Args('input') input: GetAllRequestsInput,
     @SessionDecorator('admin_id') admin_id: string,
   ): Promise<RequestListModel> {
@@ -36,7 +36,7 @@ export class RequestResolver {
 
   @Auth()
   @Query(() => RequestModel)
-  async getRequest(
+  async requestDetails(
     @Args('input') input: GetByIdInput,
     @SessionDecorator('admin_id') admin_id: string,
   ): Promise<RequestModel> {
