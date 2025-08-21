@@ -11,10 +11,11 @@ export class CreateBuilderInput {
   @Field(() => String)
   @IsString()
   @IsNotEmpty()
-  city_id: string;
+  city: string;
 
   @Field(() => String)
   @IsString()
   @IsNotEmpty()
-  state_id: string;
+  state: string;
 }
+

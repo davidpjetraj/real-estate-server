@@ -47,7 +47,7 @@ export class RequestService {
 
       if (query.search) {
         defaultQuery.OR = [
-          { fullName: { contains: query.search, mode: 'insensitive' } },
+          { full_name: { contains: query.search, mode: 'insensitive' } },
         ];
       }
 
@@ -125,26 +125,23 @@ export class RequestService {
       street: Array.isArray(input.street)
         ? input.street.join(', ')
         : input.street, // Convert string[] to string
-      buildingStatus: Array.isArray(input.buildingStatus)
-        ? input.buildingStatus.join(', ')
-        : input.buildingStatus, // Convert string[] to string
-      floorMin:
-        typeof input.floorMin === 'string'
-          ? parseInt(input.floorMin, 10)
-          : input.floorMin, // Convert string to number
-      floorMax:
-        typeof input.floorMax === 'string'
-          ? parseInt(input.floorMax, 10)
-          : input.floorMax, // Convert string to number
-      roomsMin:
-        typeof input.roomsMin === 'string'
-          ? parseInt(input.roomsMin, 10)
-          : input.roomsMin, // Convert string to number
-      roomsMax:
-        typeof input.roomsMax === 'string'
-          ? parseInt(input.roomsMax, 10)
-          : input.roomsMax, // Convert string to number
-      budgetType: input.budgetType as BudgetType, // Cast string to BudgetType enum
+      floor_min:
+        typeof input.floor_min === 'string'
+          ? parseInt(input.floor_min, 10)
+          : input.floor_min, // Convert string to number
+      floor_max:
+        typeof input.floor_max === 'string'
+          ? parseInt(input.floor_max, 10)
+          : input.floor_max, // Convert string to number
+      rooms_min:
+        typeof input.rooms_min === 'string'
+          ? parseInt(input.rooms_min, 10)
+          : input.rooms_min, // Convert string to number
+      rooms_max:
+        typeof input.rooms_max === 'string'
+          ? parseInt(input.rooms_max, 10)
+          : input.rooms_max, // Convert string to number
+      budget_type: input.budget_type as BudgetType, // Cast string to BudgetType enum
       client: input.client
         ? {
             connect: { id: input.client },
@@ -165,24 +162,19 @@ export class RequestService {
             connect: { id: input.assignee },
           }
         : undefined,
-      builder: input.builder
+      building_constructor: input.building_constructor
         ? {
-            set: input.builder.map((id) => ({ id })),
+            set: input.building_constructor.map((id) => ({ id })),
           }
         : undefined,
-      buildingConstructor: input.buildingConstructor
+      request_of_agent: input.request_of_agent
         ? {
-            set: input.buildingConstructor.map((id) => ({ id })),
+            set: input.request_of_agent.map((id) => ({ id })),
           }
         : undefined,
-      requestOfAgent: input.requestOfAgent
+      request_for_properties: input.request_for_properties
         ? {
-            set: input.requestOfAgent.map((id) => ({ id })),
-          }
-        : undefined,
-      requestForProperties: input.requestForProperties
-        ? {
-            set: input.requestForProperties.map((id) => ({ id })),
+            set: input.request_for_properties.map((id) => ({ id })),
           }
         : undefined,
     };

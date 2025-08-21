@@ -119,16 +119,16 @@ type PropertyModel {
   address: String!
   surface: Float
   floor: Int
-  numberOfFloors: Int
-  buildingYear: Int
-  numberOfRooms: Int
-  numberOfBathRooms: Int
-  numberOfBedRooms: Int
-  numberOfBalconies: Int
-  sellPrice: Float
-  rentPrice: Float
-  forSale: Boolean!
-  forRent: Boolean!
+  number_of_floors: Int
+  building_year: Int
+  number_of_rooms: Int
+  number_of_bathrooms: Int
+  number_of_bedrooms: Int
+  number_of_balconies: Int
+  sell_price: Float
+  rent_price: Float
+  for_sale: Boolean!
+  for_rent: Boolean!
   agent: TeamModel!
   deleted: Boolean!
   created_at: DateTime!
@@ -303,7 +303,7 @@ type RequestModelRelayEdge {
 type SimpleRequestModel {
   id: ID!
   short_id: Int!
-  fullName: String
+  full_name: String
   status: Int
   deleted: Boolean!
   created_at: DateTime!
@@ -666,41 +666,30 @@ input RequestInput {
   id: String!
   client: String
   agents: [String!]
-  requestOfAgent: [String!]
+  request_of_agent: [String!]
   assistant: String
-  budgetType: String
-  requestOf: String
+  budget_type: String
+  request_of: String
   source: String
-  paymentMethod: String
-  clientType: String
+  payment_method: String
+  client_type: String
   type: RequestBuyType
   category: [String!]
   city: [String!]
   street: [String!]
   state: String
   assignee: String
-  buildingConstructor: [String!]
-  builder: [String!]
-  surfaceMin: Int
-  surfaceMax: Int
-  floorMin: Int
-  floorMax: Int
-  roomsMin: Int
-  roomsMax: Int
-  orientation: [String!]
-  furnishing: [String!]
-  heatingSystem: [String!]
-  others: [String!]
-  otherDetails: String
-  destination: String
-  possessionSheet: Boolean
-  buildingPermits: Boolean
-  buildingStatus: [String!]
-  documents: String
-  infrastructure: [String!]
-  parcelNumber: String
+  building_constructor: [String!]
+  surface_min: Int
+  surface_max: Int
+  floor_min: Int
+  floor_max: Int
+  rooms_min: Int
+  rooms_max: Int
+  heating_system: [String!]
+  documents: [String!]
   budget: Int
-  requestForProperties: [String!]
+  request_for_properties: [String!]
   phone: String
   message: String
 }
@@ -716,15 +705,15 @@ input UpdateRequestAssigneeInput {
 
 input CreateBuilderInput {
   name: String!
-  city_id: String!
-  state_id: String!
+  city: String!
+  state: String!
 }
 
 input UpdateBuilderInput {
   id: String!
   name: String
-  city_id: String
-  state_id: String
+  city: String
+  state: String
 }
 
 input CreateComplexInput {

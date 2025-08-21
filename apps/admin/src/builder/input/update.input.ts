@@ -16,10 +16,11 @@ export class UpdateBuilderInput {
   @Field(() => String, { nullable: true })
   @IsString()
   @IsOptional()
-  city_id: string;
+  city: string;
 
   @Field(() => String, { nullable: true })
   @IsString()
   @IsOptional()
-  state_id: string;
+  state: string;
 }
+

@@ -49,34 +49,34 @@ export class PropertyModel {
   floor: number;
 
   @Field(() => Int, { nullable: true })
-  numberOfFloors: number;
+  number_of_floors: number;
 
   @Field(() => Int, { nullable: true })
-  buildingYear: number;
+  building_year: number;
 
   @Field(() => Int, { nullable: true })
-  numberOfRooms: number;
+  number_of_rooms: number;
 
   @Field(() => Int, { nullable: true })
-  numberOfBathRooms: number;
+  number_of_bathrooms: number;
 
   @Field(() => Int, { nullable: true })
-  numberOfBedRooms: number;
+  number_of_bedrooms: number;
 
   @Field(() => Int, { nullable: true })
-  numberOfBalconies: number;
+  number_of_balconies: number;
 
   @Field(() => Float, { nullable: true })
-  sellPrice: number;
+  sell_price: number;
 
   @Field(() => Float, { nullable: true })
-  rentPrice: number;
+  rent_price: number;
 
   @Field(() => Boolean)
-  forSale: boolean;
+  for_sale: boolean;
 
   @Field(() => Boolean)
-  forRent: boolean;
+  for_rent: boolean;
 
   @Field(() => TeamModel)
   agent: TeamModel;

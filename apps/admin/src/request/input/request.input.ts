@@ -21,7 +21,7 @@ export class RequestInput {
   @Field(() => [String], { nullable: true })
   @IsOptional()
   @IsString({ each: true })
-  requestOfAgent: string[];
+  request_of_agent: string[];
 
   @Field(() => String, { nullable: true })
   @IsString()
@@ -31,12 +31,12 @@ export class RequestInput {
   @Field(() => String, { nullable: true })
   @IsString()
   @IsOptional()
-  budgetType: string;
+  budget_type: string;
 
   @Field(() => String, { nullable: true })
   @IsString()
   @IsOptional()
-  requestOf: string;
+  request_of: string;
 
   @Field(() => String, { nullable: true })
   @IsString()
@@ -46,12 +46,12 @@ export class RequestInput {
   @Field(() => String, { nullable: true })
   @IsString()
   @IsOptional()
-  paymentMethod: string;
+  payment_method: string;
 
   @Field(() => String, { nullable: true })
   @IsString()
   @IsOptional()
-  clientType: string;
+  client_type: string;
 
   @Field(() => RequestBuyType, { nullable: true })
   @IsString()
@@ -82,93 +82,46 @@ export class RequestInput {
 
   @Field(() => [String], { nullable: true })
   @IsOptional()
-  buildingConstructor: string[];
-
-  @Field(() => [String], { nullable: true })
-  @IsOptional()
-  builder: string[];
+  building_constructor: string[];
 
   @Field(() => Int, { nullable: true })
   @IsOptional()
   @IsNumber()
-  surfaceMin: number;
+  surface_min: number;
 
   @Field(() => Int, { nullable: true })
   @IsOptional()
   @IsNumber()
-  surfaceMax: number;
+  surface_max: number;
 
   @Field(() => Int, { nullable: true })
   @IsOptional()
   @IsNumber()
-  floorMin: string;
+  floor_min: number;
 
   @Field(() => Int, { nullable: true })
   @IsOptional()
   @IsNumber()
-  floorMax: string;
+  floor_max: number;
 
   @Field(() => Int, { nullable: true })
   @IsOptional()
   @IsNumber()
-  roomsMin: string;
+  rooms_min: number;
 
   @Field(() => Int, { nullable: true })
   @IsOptional()
   @IsNumber()
-  roomsMax: string;
+  rooms_max: number;
 
   @Field(() => [String], { nullable: true })
   @IsOptional()
-  orientation: string[];
+  heating_system: string[];
 
   @Field(() => [String], { nullable: true })
-  @IsOptional()
-  furnishing: string[];
-
-  @Field(() => [String], { nullable: true })
-  @IsOptional()
-  heatingSystem: string[];
-
-  @Field(() => [String], { nullable: true })
-  @IsOptional()
-  others: string[];
-
-  @Field(() => String, { nullable: true })
-  @IsOptional()
-  @IsString()
-  otherDetails: string;
-
-  @Field(() => String, { nullable: true })
-  @IsOptional()
-  @IsString()
-  destination: string;
-
-  @Field(() => Boolean, { nullable: true })
-  @IsOptional()
-  possessionSheet: boolean;
-
-  @Field(() => Boolean, { nullable: true })
-  @IsOptional()
-  buildingPermits: boolean;
-
-  @Field(() => [String], { nullable: true })
-  @IsOptional()
-  buildingStatus: string[];
-
-  @Field(() => String, { nullable: true })
   @IsString()
   @IsOptional()
-  documents: string;
-
-  @Field(() => [String], { nullable: true })
-  @IsOptional()
-  infrastructure: string[];
-
-  @Field(() => String, { nullable: true })
-  @IsOptional()
-  @IsString()
-  parcelNumber: string;
+  documents: string[];
 
   @Field(() => Int, { nullable: true })
   @IsOptional()
@@ -177,7 +130,7 @@ export class RequestInput {
 
   @Field(() => [String], { nullable: true })
   @IsOptional()
-  requestForProperties: string[];
+  request_for_properties: string[];
 
   @Field(() => String, { nullable: true })
   @IsOptional()

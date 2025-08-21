@@ -11,7 +11,7 @@ export class SimpleRequestModel {
   short_id: number;
 
   @Field(() => String, { nullable: true })
-  fullName: string;
+  full_name: string;
 
   @Field(() => Int, { nullable: true })
   status: number;
@@ -22,3 +22,4 @@ export class SimpleRequestModel {
   @Field(() => Date)
   created_at: Date;
 }
+
